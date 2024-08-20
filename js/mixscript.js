@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         linkContainer.appendChild(linkBox);
 
         // Fetch the last update time using your custom API
-        fetch(`https://v2rayng.pythonanywhere.com/repo/update?repo_url=${repoUrl}`)
+        fetch(`https://v2rayng.pythonanywhere.com/extract-datetime?url=${repoUrl}`)
             .then(response => response.json())
             .then(data => {
                 const lastUpdateDate = new Date(data.last_update);
