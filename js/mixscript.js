@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg0.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
@@ -7,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const linkContainer = document.getElementById('link-container');
+    const githubToken = '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'; // Replace with your GitHub token
 
     links.forEach(url => {
         const urlParts = url.split('/');
@@ -16,10 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const filePath = urlParts.slice(5).join('/'); // Extract file path
         const displayName = `${userName}-${fileName}`;
 
-        fetch(`https://v2rayng.pythonanywhere.com/api/fetch?url=https://api.github.com/repos/${userName}/${repoName}/contents/${filePath}`)
-            .then(response => response.json())
+        fetch(url)
+            .then(response => response.text())
             .then(data => {
-                const lines = (data.content || '').split('\n').filter(line => line.trim() !== '');
+                const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach(link => {
                     const linkBox = document.createElement('div');
                     linkBox.className = 'link-box';
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const lastUpdateElement = document.createElement('div');
                     lastUpdateElement.className = 'last-update';
-                    lastUpdateElement.textContent = `آخرین بروزرسانی: ${data.last_update || 'در حال بررسی...'}`;
+                    lastUpdateElement.textContent = 'آخرین بروزرسانی: در حال بررسی...'; // Placeholder text
 
                     linkBox.appendChild(nameElement);
                     linkBox.appendChild(copyButton);
@@ -53,6 +55,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     linkBox.appendChild(lastUpdateElement);
 
                     linkContainer.appendChild(linkBox);
+
+                    // Fetch the last update time from GitHub API
+                    fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/${filePath}`, {
+                        headers: {
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Authorization': `token ${githubToken}`
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            const lastUpdateDate = new Date(data.commit.committer.date);
+                            const now = new Date();
+                            const timeDiff = now - lastUpdateDate;
+                            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                            const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
+
+                            let updateText = '';
+                            if (days > 0) {
+                                updateText = `${days} روز پیش`;
+                            } else if (hours > 0) {
+                                updateText = `${hours} ساعت پیش`;
+                            } else if (minutes > 0) {
+                                updateText = `${minutes} دقیقه پیش`;
+                            } else {
+                                updateText = 'اکنون';
+                            }
+
+                            lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching last update time:', error);
+                        });
                 });
             })
             .catch(error => {
