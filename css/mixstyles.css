@@ -83,9 +83,17 @@ header {
     transition: transform 0.3s ease;
 }
 
-.github-logo:hover {
-    transform: scale(1.2);
+.github-logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-radius: 50%; /* گرد کردن گوشه‌های لوگو */
 }
+
 
 footer {
     padding: 20px;
