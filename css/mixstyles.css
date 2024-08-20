@@ -14,7 +14,7 @@ body {
 
 header {
     padding: 20px;
-    font-size: 5vw;
+    font-size: 6vw; /* Adjusted to be larger on mobile */
     font-weight: 700;
     letter-spacing: 2px;
     background: linear-gradient(45deg, #ff6f61, #ffab40);
@@ -35,10 +35,10 @@ header {
 .link-box {
     position: relative;
     background-color: #333;
-    padding: 20px 25px;
+    padding: 20px;
     border-radius: 12px;
-    width: calc(100% / 3 - 40px);
-    max-width: 350px;
+    width: 100%;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,7 +53,7 @@ header {
 }
 
 .link-name {
-    font-size: 1.8vw;
+    font-size: 4vw; /* Larger for better readability */
     color: #ffab40;
     margin-bottom: 15px;
 }
@@ -62,8 +62,8 @@ header {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    padding: 10px 20px;
-    font-size: 1vw;
+    padding: 8px 12px;
+    font-size: 3vw; /* Adjusted for better readability */
     background-color: #ff6f61;
     color: #ffffff;
     border: none;
@@ -80,8 +80,8 @@ header {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     transition: transform 0.3s ease;
     border-radius: 50%;
@@ -92,59 +92,61 @@ header {
 }
 
 .last-update {
-    font-size: 0.8vw;
+    font-size: 3vw; /* Larger for better readability */
     color: #ccc;
     margin-top: 10px;
 }
 
 footer {
     padding: 20px;
-    font-size: 1.2vw;
+    font-size: 3vw;
     color: #888;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 1024px) {
     .link-box {
-        width: calc(100% / 2 - 40px);
         max-width: 300px;
+        width: calc(33.333% - 40px); /* Three boxes per row */
     }
+
     .link-name {
-        font-size: 2.5vw;
-    }
-    .copy-button {
         font-size: 1.5vw;
     }
+
+    .copy-button {
+        font-size: 1.2vw;
+    }
+
+    .github-logo {
+        width: 30px;
+        height: 30px;
+    }
+
     .last-update {
         font-size: 1.2vw;
     }
-    .github-logo {
-        width: 35px;
-        height: 35px;
-    }
 }
 
-@media (max-width: 768px) {
-    header {
-        font-size: 8vw;
-    }
+@media (min-width: 768px) and (max-width: 1023px) {
     .link-box {
-        width: 100%;
-        max-width: none;
+        max-width: 400px;
+        width: calc(50% - 40px); /* Two boxes per row */
     }
+
     .link-name {
-        font-size: 4vw;
-    }
-    .copy-button {
-        font-size: 2.5vw;
-    }
-    .last-update {
         font-size: 2vw;
     }
-    .github-logo {
-        width: 40px;
-        height: 40px;
+
+    .copy-button {
+        font-size: 1.8vw;
     }
-    footer {
-        font-size: 3vw;
+
+    .github-logo {
+        width: 25px;
+        height: 25px;
+    }
+
+    .last-update {
+        font-size: 1.5vw;
     }
 }
