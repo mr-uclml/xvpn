@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const linkContainer = document.getElementById('link-container');
-    const githubToken = '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'; // Replace with your GitHub token
+    const githubToken = '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'; // Replace with your GitHub token
 
     links.forEach(url => {
         const urlParts = url.split('/');
