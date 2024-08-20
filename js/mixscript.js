@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
-        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg0.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
@@ -19,7 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const displayName = `${userName}-${fileName}`;
 
         fetch(url)
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error fetching file data from ${url}: ${response.statusText}`);
+                }
+                return response.text();
+            })
             .then(data => {
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach(link => {
@@ -65,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                         .then(response => {
                             if (!response.ok) {
-                                throw new Error('Error fetching commits');
+                                throw new Error(`Error fetching commits: ${response.statusText}`);
                             }
                             return response.json();
                         })
