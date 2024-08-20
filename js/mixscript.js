@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
-        'https://raw.githubusercontent.com/Flikify/getNode/main/v2ray.txt',
-        'https://raw.githubusercontent.com/euueu/troj/nd.txt'
+        'https://raw.githubusercontent.com/Flikify/getNode/main/v2ray.txt'
     ];
 
     const container = document.getElementById('linkContainer');
