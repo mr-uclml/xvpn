@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 formattedTime = `${seconds} ثانیه پیش`;
             }
 
-            updateSpan.textContent = `آخرین آپدیت: ${formattedTime}`;
+            updateSpan.textContent = `آآپدیت: ${formattedTime}`;
 
             linkBox.appendChild(nameSpan);
             linkBox.appendChild(copyButton);
