@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // ایجاد دکمه کپی
             const copyButton = document.createElement('button');
             copyButton.className = 'copy-button';
-            copyButton.textContent = 'کپی لینک ساب کانفینگ ها';
+            copyButton.textContent = 'کپی لینک ساب';
             copyButton.onclick = () => {
                 navigator.clipboard.writeText(link)
                     .then(() => alert(`${linkName} کپی شد!`))
