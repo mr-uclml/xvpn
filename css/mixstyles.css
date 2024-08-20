@@ -94,6 +94,11 @@ header {
     border-radius: 50%; /* گرد کردن گوشه‌های لوگو */
 }
 
+.last-update {
+    font-size: 0.8vw;
+    color: #ccc;
+    margin-top: 10px;
+}
 
 footer {
     padding: 20px;
