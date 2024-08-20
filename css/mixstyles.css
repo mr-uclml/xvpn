@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+header {
+    padding: 20px;
+    font-size: 5vw;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #ff6f61, #ffab40);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.link-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.link-box {
+    background-color: #333;
+    padding: 20px 25px;
+    border-radius: 12px;
+    width: calc(100% / 3 - 40px);
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.link-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.link-name {
+    font-size: 1.8vw;
+    color: #ffab40;
+    margin-bottom: 15px;
+}
+
+.copy-button {
+    padding: 10px 20px;
+    font-size: 1vw;
+    background-color: #ff6f61;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.copy-button:hover {
+    background-color: #ffab40;
+}
+
+/* Media Query برای نمایشگرهای کوچک‌تر مانند موبایل */
+@media (max-width: 768px) {
+    .link-box {
+        width: 100%;
+    }
+    .link-name {
+        font-size: 4vw;
+    }
+    .copy-button {
+        font-size: 3vw;
+    }
+}
