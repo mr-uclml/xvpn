@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
-        'https://raw.githubusercontent.com/Flikify/getNode/main/v2ray.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg0.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
@@ -16,20 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach(link => {
-                    const urlParts = new URL(link);
-                    const pathParts = urlParts.pathname.split('/');
-                    const fileName = pathParts[pathParts.length - 1].replace('.txt', ''); // Extract file name without extension
-                    const userName = pathParts[2]; // Extract username
-
-                    // Construct the display name
-                    const displayName = `${userName}-${fileName}`;
+                    const linkName = link.split('/')[3]; // Extract name from URL
 
                     const linkBox = document.createElement('div');
                     linkBox.className = 'link-box';
 
                     const nameElement = document.createElement('div');
                     nameElement.className = 'link-name';
-                    nameElement.textContent = displayName;
+                    nameElement.textContent = linkName;
 
                     const copyButton = document.createElement('button');
                     copyButton.className = 'copy-button';
@@ -43,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
                     githubLogo.className = 'github-logo';
                     githubLogo.onclick = () => {
-                        window.open(`https://github.com/${userName}`, '_blank');
+                        window.open(`https://github.com/${linkName}`, '_blank');
                     };
 
                     const lastUpdateElement = document.createElement('div');
