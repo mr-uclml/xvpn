@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    let linkData = [];
+
     links.forEach(link => {
         if (link.trim()) {
             const linkParts = link.split('/');
@@ -18,6 +20,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const githubUser = linkParts[3];
             const repoName = linkParts[4];
 
+            fetch(`https://api.github.com/repos/${githubUser}/${repoName}/commits/main`)
+                .then(response => response.json())
+                .then(data => {
+                    const lastUpdate = new Date(data.commit.author.date);
+                    linkData.push({ link, linkName, githubUser, repoName, lastUpdate });
+
+                    if (linkData.length === links.length) {
+                        linkData.sort((a, b) => b.lastUpdate - a.lastUpdate);
+                        displayLinks(linkData);
+                    }
+                })
+                .catch(error => {
+                    console.error('خطا در دریافت اطلاعات:', error);
+                });
+        }
+    });
+
+    function displayLinks(linkData) {
+        linkData.forEach(({ link, linkName, githubUser, repoName, lastUpdate }) => {
             const linkBox = document.createElement('div');
             linkBox.className = 'link-box';
 
@@ -44,48 +65,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const updateSpan = document.createElement('span');
             updateSpan.className = 'last-update';
-            updateSpan.textContent = 'در حال دریافت...';
+            const now = new Date();
+            const timeDifference = Math.abs(now - lastUpdate);
+            const seconds = Math.floor(timeDifference / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const months = Math.floor(days / 30);
+            const years = Math.floor(months / 12);
 
-            fetch(`https://api.github.com/repos/${githubUser}/${repoName}/commits/main`)
-                .then(response => response.json())
-                .then(data => {
-                    const lastUpdate = new Date(data.commit.author.date);
-                    const now = new Date();
-                    const timeDifference = Math.abs(now - lastUpdate);
-                    const seconds = Math.floor(timeDifference / 1000);
-                    const minutes = Math.floor(seconds / 60);
-                    const hours = Math.floor(minutes / 60);
-                    const days = Math.floor(hours / 24);
-                    const months = Math.floor(days / 30);
-                    const years = Math.floor(months / 12);
+            let formattedTime;
+            if (years > 0) {
+                formattedTime = `${years} سال پیش`;
+            } else if (months > 0) {
+                formattedTime = `${months} ماه پیش`;
+            } else if (days > 0) {
+                formattedTime = `${days} روز پیش`;
+            } else if (hours > 0) {
+                formattedTime = `${hours} ساعت پیش`;
+            } else if (minutes > 0) {
+                formattedTime = `${minutes} دقیقه پیش`;
+            } else {
+                formattedTime = `${seconds} ثانیه پیش`;
+            }
 
-                    let formattedTime;
-                    if (years > 0) {
-                        formattedTime = `${years} سال پیش`;
-                    } else if (months > 0) {
-                        formattedTime = `${months} ماه پیش`;
-                    } else if (days > 0) {
-                        formattedTime = `${days} روز پیش`;
-                    } else if (hours > 0) {
-                        formattedTime = `${hours} ساعت پیش`;
-                    } else if (minutes > 0) {
-                        formattedTime = `${minutes} دقیقه پیش`;
-                    } else {
-                        formattedTime = `${seconds} ثانیه پیش`;
-                    }
-
-                    updateSpan.textContent = `آخرین آپدیت: ${formattedTime}`;
-                })
-                .catch(error => {
-                    console.error('خطا در دریافت اطلاعات:', error);
-                    updateSpan.textContent = 'خطا در دریافت اطلاعات';
-                });
+            updateSpan.textContent = `آخرین آپدیت: ${formattedTime}`;
 
             linkBox.appendChild(nameSpan);
             linkBox.appendChild(copyButton);
             linkBox.appendChild(githubLogo);
             linkBox.appendChild(updateSpan);
             container.appendChild(linkBox);
-        }
-    });
+        });
+    }
 });
