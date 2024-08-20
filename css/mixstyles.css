@@ -76,7 +76,6 @@ header {
     background-color: #ffab40;
 }
 
-
 .github-logo {
     position: absolute;
     top: 10px;
@@ -85,17 +84,11 @@ header {
     height: 30px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    border-radius: 50%;
 }
 
-.github-logo {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    border-radius: 50%; /* گرد کردن گوشه‌های لوگو */
+.github-logo:hover {
+    transform: scale(1.2);
 }
 
 .last-update {
@@ -110,18 +103,42 @@ footer {
     color: #888;
 }
 
+@media (max-width: 1024px) {
+    .link-box {
+        width: calc(100% / 2 - 40px);
+        max-width: 300px;
+    }
+    .link-name {
+        font-size: 2.5vw;
+    }
+    .copy-button {
+        font-size: 1.5vw;
+    }
+    .last-update {
+        font-size: 1.2vw;
+    }
+    .github-logo {
+        width: 35px;
+        height: 35px;
+    }
+}
+
 @media (max-width: 768px) {
     header {
         font-size: 8vw;
     }
     .link-box {
         width: 100%;
+        max-width: none;
     }
     .link-name {
         font-size: 4vw;
     }
     .copy-button {
-        font-size: 3vw;
+        font-size: 2.5vw;
+    }
+    .last-update {
+        font-size: 2vw;
     }
     .github-logo {
         width: 40px;
