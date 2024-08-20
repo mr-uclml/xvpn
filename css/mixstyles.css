@@ -1,59 +1,33 @@
-document.addEventListener('DOMContentLoaded', () => {
-   
-    const links = [
-        'https://raw.githubusercontent.com/Flikify/getNode/main/v2ray.txt',
-        'https://raw.githubusercontent.com/euueu/troj/nd.txt'
-        
-    ];
+.link-box {
+    position: relative; /* برای قرار دادن لوگو در گوشه باکس */
+    background-color: #333;
+    padding: 20px 25px;
+    border-radius: 12px;
+    width: calc(100% / 3 - 40px);
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-   
-    const container = document.getElementById('linkContainer');
+.link-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
 
-    if (!container) {
-        console.error('عنصر با شناسه "linkContainer" پیدا نشد');
-        return;
-    }
+.github-logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 
-    
-    links.forEach(link => {
-        if (link.trim()) {
-            const linkParts = link.split('/');
-            const linkName = linkParts[3]; // استخراج نام لینک از URL
-            const githubUser = linkParts[3]; // استخراج یوزرنیم از URL
-
-            
-            const linkBox = document.createElement('div');
-            linkBox.className = 'link-box';
-
-            
-            const nameSpan = document.createElement('span');
-            nameSpan.className = 'link-name';
-            nameSpan.textContent = linkName;
-
-           
-            const copyButton = document.createElement('button');
-            copyButton.className = 'copy-button';
-            copyButton.textContent = 'کپی';
-            copyButton.onclick = () => {
-                navigator.clipboard.writeText(link)
-                    .then(() => alert(`${linkName} کپی شد!`))
-                    .catch(err => console.error('خطا در کپی کردن لینک:', err));
-            };
-
-            
-            const githubLogo = document.createElement('img');
-            githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
-            githubLogo.className = 'github-logo';
-            githubLogo.alt = 'GitHub';
-            githubLogo.onclick = () => {
-                window.open(`https://github.com/${githubUser}`, '_blank');
-            };
-
-            
-            linkBox.appendChild(nameSpan);
-            linkBox.appendChild(copyButton);
-            linkBox.appendChild(githubLogo);
-            container.appendChild(linkBox);
-        }
-    });
-});
+.github-logo:hover {
+    transform: scale(1.2);
+}
