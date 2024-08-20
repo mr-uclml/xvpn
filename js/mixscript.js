@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg0.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
@@ -12,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const urlParts = url.split('/');
         const fileName = urlParts[urlParts.length - 1].split('.')[0]; // Extract filename without extension
         const userName = urlParts[3]; // Extract username from URL
+        const repoName = urlParts[4]; // Extract repository name
+        const filePath = urlParts.slice(5).join('/'); // Extract file path
         const displayName = `${userName}-${fileName}`;
 
         fetch(url)
@@ -52,11 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     linkContainer.appendChild(linkBox);
 
-                    // Fetch the last update time
-                    fetch(link)
-                        .then(response => response.headers.get('Last-Modified'))
-                        .then(lastModified => {
-                            const lastUpdateDate = new Date(lastModified);
+                    // Fetch the last update time from GitHub API
+                    fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/${filePath}`, {
+                        headers: {
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            const lastUpdateDate = new Date(data.commit.committer.date);
                             const now = new Date();
                             const timeDiff = now - lastUpdateDate;
                             const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
