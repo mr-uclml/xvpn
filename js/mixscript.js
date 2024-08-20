@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // پردازش هر لینک و ایجاد باکس لینک
     links.forEach(link => {
         if (link.trim()) {
-            const linkName = link.split('/')[3]; // استخراج نام لینک از URL
+            const linkParts = link.split('/');
+            const linkName = linkParts[3]; // استخراج نام لینک از URL
+            const githubUser = linkParts[3]; // استخراج یوزرنیم از URL
 
             // ایجاد باکس لینک
             const linkBox = document.createElement('div');
@@ -38,9 +40,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     .catch(err => console.error('خطا در کپی کردن لینک:', err));
             };
 
+            // ایجاد لوگوی گیت‌هاب
+            const githubLogo = document.createElement('img');
+            githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
+            githubLogo.className = 'github-logo';
+            githubLogo.alt = 'GitHub';
+            githubLogo.onclick = () => {
+                window.open(`https://github.com/${githubUser}`, '_blank');
+            };
+
             // اضافه کردن نام لینک و دکمه کپی به باکس لینک
             linkBox.appendChild(nameSpan);
             linkBox.appendChild(copyButton);
+            linkBox.appendChild(githubLogo);
             container.appendChild(linkBox);
         }
     });
