@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     linkContainer.appendChild(linkBox);
 
                     // Fetch the last update time from GitHub API
-                    fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/${filePath}`, {
+                    fetch(`https://api.github.com/repos/${userName}/${repoName}/commits`, {
                         headers: {
                             'Accept': 'application/vnd.github.v3+json',
                             'Authorization': `token ${githubToken}`
@@ -65,30 +65,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                         .then(response => {
                             if (!response.ok) {
-                                throw new Error('File not found or other error');
+                                throw new Error('Error fetching commits');
                             }
                             return response.json();
                         })
-                        .then(data => {
-                            const lastUpdateDate = new Date(data.commit.committer.date);
-                            const now = new Date();
-                            const timeDiff = now - lastUpdateDate;
-                            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                            const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                            const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
+                        .then(commits => {
+                            const commit = commits.find(commit => commit.commit.tree.sha === fileName); // Assuming that fileName is used to match commits
+                            if (commit) {
+                                const lastUpdateDate = new Date(commit.commit.committer.date);
+                                const now = new Date();
+                                const timeDiff = now - lastUpdateDate;
+                                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                                const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                                const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
 
-                            let updateText = '';
-                            if (days > 0) {
-                                updateText = `${days} روز پیش`;
-                            } else if (hours > 0) {
-                                updateText = `${hours} ساعت پیش`;
-                            } else if (minutes > 0) {
-                                updateText = `${minutes} دقیقه پیش`;
+                                let updateText = '';
+                                if (days > 0) {
+                                    updateText = `${days} روز پیش`;
+                                } else if (hours > 0) {
+                                    updateText = `${hours} ساعت پیش`;
+                                } else if (minutes > 0) {
+                                    updateText = `${minutes} دقیقه پیش`;
+                                } else {
+                                    updateText = 'اکنون';
+                                }
+
+                                lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
                             } else {
-                                updateText = 'اکنون';
+                                lastUpdateElement.textContent = 'آخرین بروزرسانی: یافت نشد';
                             }
-
-                            lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
                         })
                         .catch(error => {
                             console.error('Error fetching last update time:', error);
