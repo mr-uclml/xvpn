@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const linkContainer = document.getElementById('link-container');
-    const githubToken = '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'; // Replace with your GitHub token
+    const githubToken = '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'; // Replace with your GitHub token
 
     links.forEach(url => {
         const urlParts = url.split('/');
