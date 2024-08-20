@@ -7,98 +7,97 @@ document.addEventListener('DOMContentLoaded', () => {
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg4.txt'
     ];
-    const container = document.getElementById('linkContainer');
 
-    if (!container) {
-        console.error('عنصر با شناسه "linkContainer" پیدا نشد');
-        return;
-    }
+    const linkContainer = document.getElementById('link-container');
 
-    let linkData = [];
+    links.forEach(url => {
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                const lines = data.split('\n').filter(line => line.trim() !== '');
+                lines.forEach(link => {
+                    const urlParts = new URL(link);
+                    const pathParts = urlParts.pathname.split('/');
+                    const username = pathParts[1]; // GitHub username
+                    const fileName = pathParts[3].split('.')[0]; // Extract file name without extension
 
-    links.forEach(link => {
-        if (link.trim()) {
-            const linkParts = link.split('/');
-            const linkName = linkParts[3];
-            const githubUser = linkParts[3];
-            const repoName = linkParts[4];
+                    const linkName = `${username}-${fileName}`;
 
-            fetch(`https://api.github.com/repos/${githubUser}/${repoName}/commits/main`)
-                .then(response => response.json())
-                .then(data => {
-                    const lastUpdate = new Date(data.commit.author.date);
-                    linkData.push({ link, linkName, githubUser, repoName, lastUpdate });
+                    const linkBox = document.createElement('div');
+                    linkBox.className = 'link-box';
 
-                    if (linkData.length === links.length) {
-                        linkData.sort((a, b) => b.lastUpdate - a.lastUpdate);
-                        displayLinks(linkData);
-                    }
-                })
-                .catch(error => {
-                    console.error('خطا در دریافت اطلاعات:', error);
+                    const nameElement = document.createElement('div');
+                    nameElement.className = 'link-name';
+                    nameElement.textContent = linkName;
+
+                    const fileNameElement = document.createElement('div');
+                    fileNameElement.className = 'file-name';
+                    fileNameElement.textContent = linkName;
+
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-button';
+                    copyButton.textContent = 'کپی لینک ساب';
+                    copyButton.onclick = () => {
+                        navigator.clipboard.writeText(link);
+                        alert('لینک کپی شد!');
+                    };
+
+                    const githubLogo = document.createElement('img');
+                    githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
+                    githubLogo.className = 'github-logo';
+                    githubLogo.onclick = () => {
+                        window.open(`https://github.com/${username}`, '_blank');
+                    };
+
+                    const lastUpdateElement = document.createElement('div');
+                    lastUpdateElement.className = 'last-update';
+                    lastUpdateElement.textContent = 'آخرین بروزرسانی: در حال بررسی...'; // Placeholder text
+
+                    linkBox.appendChild(nameElement);
+                    linkBox.appendChild(fileNameElement);
+                    linkBox.appendChild(copyButton);
+                    linkBox.appendChild(githubLogo);
+                    linkBox.appendChild(lastUpdateElement);
+
+                    linkContainer.appendChild(linkBox);
+
+                    // Fetch the last update time
+                    fetch(link)
+                        .then(response => response.headers.get('Last-Modified'))
+                        .then(lastModified => {
+                            if (lastModified) {
+                                const lastUpdateDate = new Date(lastModified);
+                                const now = new Date();
+                                const timeDiff = now - lastUpdateDate;
+                                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                                const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                                const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
+
+                                let updateText = '';
+                                if (days > 0) {
+                                    updateText = `${days} روز پیش`;
+                                } else if (hours > 0) {
+                                    updateText = `${hours} ساعت پیش`;
+                                } else if (minutes > 0) {
+                                    updateText = `${minutes} دقیقه پیش`;
+                                } else {
+                                    updateText = 'اکنون';
+                                }
+
+                                
+                                lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
+                            } else {
+                                lastUpdateElement.textContent = 'آخرین بروزرسانی: اطلاعات موجود نیست';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching last update time:', error);
+                            lastUpdateElement.textContent = 'آخرین بروزرسانی: خطا در دریافت اطلاعات';
+                        });
                 });
-        }
+            })
+            .catch(error => {
+                console.error('Error fetching links:', error);
+            });
     });
-
-    function displayLinks(linkData) {
-        linkData.forEach(({ link, linkName, githubUser, repoName, lastUpdate }) => {
-            const linkBox = document.createElement('div');
-            linkBox.className = 'link-box';
-
-            const nameSpan = document.createElement('span');
-            nameSpan.className = 'link-name';
-            nameSpan.textContent = linkName;
-
-            const copyButton = document.createElement('button');
-            copyButton.className = 'copy-button';
-            copyButton.textContent = 'لینک ساب';
-            copyButton.onclick = () => {
-                navigator.clipboard.writeText(link)
-                    .then(() => alert(`${linkName} کپی شد!`))
-                    .catch(err => console.error('خطا در کپی کردن لینک:', err));
-            };
-
-            const githubLogo = document.createElement('img');
-            githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
-            githubLogo.className = 'github-logo';
-            githubLogo.alt = 'GitHub';
-            githubLogo.onclick = () => {
-                window.open(`https://github.com/${githubUser}`, '_blank');
-            };
-
-            const updateSpan = document.createElement('span');
-            updateSpan.className = 'last-update';
-            const now = new Date();
-            const timeDifference = Math.abs(now - lastUpdate);
-            const seconds = Math.floor(timeDifference / 1000);
-            const minutes = Math.floor(seconds / 60);
-            const hours = Math.floor(minutes / 60);
-            const days = Math.floor(hours / 24);
-            const months = Math.floor(days / 30);
-            const years = Math.floor(months / 12);
-
-            let formattedTime;
-            if (years > 0) {
-                formattedTime = `${years} سال پیش`;
-            } else if (months > 0) {
-                formattedTime = `${months} ماه پیش`;
-            } else if (days > 0) {
-                formattedTime = `${days} روز پیش`;
-            } else if (hours > 0) {
-                formattedTime = `${hours} ساعت پیش`;
-            } else if (minutes > 0) {
-                formattedTime = `${minutes} دقیقه پیش`;
-            } else {
-                formattedTime = `${seconds} ثانیه پیش`;
-            }
-
-            updateSpan.textContent = `آپدیت: ${formattedTime}`;
-
-            linkBox.appendChild(nameSpan);
-            linkBox.appendChild(copyButton);
-            linkBox.appendChild(githubLogo);
-            linkBox.appendChild(updateSpan);
-            container.appendChild(linkBox);
-        });
-    }
 });
