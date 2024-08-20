@@ -9,20 +9,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const linkContainer = document.getElementById('link-container');
 
+    if (!linkContainer) {
+        console.error('Error: link-container element not found.');
+        return;
+    }
+
     links.forEach(url => {
         fetch(url)
             .then(response => response.text())
             .then(data => {
                 const lines = data.split('\n').filter(line => line.trim() !== '');
+                if (lines.length === 0) {
+                    console.warn(`No valid lines found in ${url}`);
+                }
                 lines.forEach(link => {
-                    const linkName = link.split('/')[3]; // Extract name from URL
+                    const urlParts = new URL(link);
+                    const pathParts = urlParts.pathname.split('/');
+                    const fileName = pathParts[pathParts.length - 1].replace('.txt', ''); // Extract file name without extension
+                    const userName = pathParts[2]; // Extract username
+
+                    // Construct the display name
+                    const displayName = `${userName}-${fileName}`;
 
                     const linkBox = document.createElement('div');
                     linkBox.className = 'link-box';
 
                     const nameElement = document.createElement('div');
                     nameElement.className = 'link-name';
-                    nameElement.textContent = linkName;
+                    nameElement.textContent = displayName;
 
                     const copyButton = document.createElement('button');
                     copyButton.className = 'copy-button';
@@ -36,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
                     githubLogo.className = 'github-logo';
                     githubLogo.onclick = () => {
-                        window.open(`https://github.com/${linkName}`, '_blank');
+                        window.open(`https://github.com/${userName}`, '_blank');
                     };
 
                     const lastUpdateElement = document.createElement('div');
@@ -54,25 +68,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     fetch(link)
                         .then(response => response.headers.get('Last-Modified'))
                         .then(lastModified => {
-                            const lastUpdateDate = new Date(lastModified);
-                            const now = new Date();
-                            const timeDiff = now - lastUpdateDate;
-                            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                            const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                            const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
+                            if (lastModified) {
+                                const lastUpdateDate = new Date(lastModified);
+                                const now = new Date();
+                                const timeDiff = now - lastUpdateDate;
+                                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                                const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                                const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
 
-                            let updateText = '';
-                            if (days > 0) {
-                                updateText = `${days} روز پیش`;
-                            } else if (hours > 0) {
-                                updateText = `${hours} ساعت پیش`;
-                            } else if (minutes > 0) {
-                                updateText = `${minutes} دقیقه پیش`;
+                                let updateText = '';
+                                if (days > 0) {
+                                    updateText = `${days} روز پیش`;
+                                } else if (hours > 0) {
+                                    updateText = `${hours} ساعت پیش`;
+                                } else if (minutes > 0) {
+                                    updateText = `${minutes} دقیقه پیش`;
+                                } else {
+                                    updateText = 'اکنون';
+                                }
+
+                                lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
                             } else {
-                                updateText = 'اکنون';
+                                lastUpdateElement.textContent = 'آخرین بروزرسانی: اطلاعات موجود نیست';
                             }
-
-                            lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
                         })
                         .catch(error => {
                             console.error('Error fetching last update time:', error);
@@ -80,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             })
             .catch(error => {
-                console.error('Error fetching links:', error);
+                console.error('Error fetching data from URL:', url, error);
             });
     });
 });
