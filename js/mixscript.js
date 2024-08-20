@@ -10,17 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
 
     links.forEach(url => {
+        const urlParts = url.split('/');
+        const fileName = urlParts[urlParts.length - 1].split('.')[0]; // Extract filename without extension
+        const userName = urlParts[3]; // Extract username from URL
+        const displayName = `${userName}-${fileName}`;
+
         fetch(url)
             .then(response => response.text())
             .then(data => {
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach(link => {
-                    // Extract username and filename
-                    const urlParts = link.split('/');
-                    const username = urlParts[3]; // Extract username
-                    const filename = urlParts[urlParts.length - 1].split('.')[0]; // Extract filename without extension
-                    const displayName = `${username}-${filename}`;
-
                     const linkBox = document.createElement('div');
                     linkBox.className = 'link-box';
 
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
                     githubLogo.className = 'github-logo';
                     githubLogo.onclick = () => {
-                        window.open(`https://github.com/${username}`, '_blank');
+                        window.open(`https://github.com/${userName}`, '_blank');
                     };
 
                     const lastUpdateElement = document.createElement('div');
