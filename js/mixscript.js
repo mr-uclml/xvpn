@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
-        copyButton.textContent = 'کپی لینک ساب';
+        copyButton.textContent = 'لینک ساب';
         copyButton.onclick = () => {
             navigator.clipboard.writeText(url);
             alert('لینک کپی شد!');
