@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg0.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
@@ -7,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const linkContainer = document.getElementById('link-container');
-    const githubToken = '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'; // Replace with your GitHub token
+    const apiBaseUrl = 'https://v2rayng.pythonanywhere.com/repo/update?repo_url=';
 
     links.forEach(url => {
         const urlParts = url.split('/');
@@ -18,12 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const displayName = `${userName}-${fileName}`;
 
         fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Error fetching file data from ${url}: ${response.statusText}`);
-                }
-                return response.text();
-            })
+            .then(response => response.text())
             .then(data => {
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach(link => {
@@ -60,48 +56,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     linkContainer.appendChild(linkBox);
 
-                    // Fetch the last update time from GitHub API
-                    fetch(`https://api.github.com/repos/${userName}/${repoName}/commits`, {
-                        headers: {
-                            'Accept': 'application/vnd.github.v3+json',
-                            'Authorization': `token ${githubToken}`
-                        }
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Error fetching commits: ${response.statusText}`);
-                            }
-                            return response.json();
-                        })
-                        .then(commits => {
-                            const commit = commits.find(commit => commit.commit.tree.sha === fileName); // Assuming that fileName is used to match commits
-                            if (commit) {
-                                const lastUpdateDate = new Date(commit.commit.committer.date);
-                                const now = new Date();
-                                const timeDiff = now - lastUpdateDate;
-                                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                                const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                                const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
+                    // Fetch the last update time from your API
+                    fetch(`${apiBaseUrl}https://github.com/${userName}/${repoName}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const lastUpdateDate = new Date(data.last_update);
+                            const now = new Date();
+                            const timeDiff = now - lastUpdateDate;
+                            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                            const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
 
-                                let updateText = '';
-                                if (days > 0) {
-                                    updateText = `${days} روز پیش`;
-                                } else if (hours > 0) {
-                                    updateText = `${hours} ساعت پیش`;
-                                } else if (minutes > 0) {
-                                    updateText = `${minutes} دقیقه پیش`;
-                                } else {
-                                    updateText = 'اکنون';
-                                }
-
-                                lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
+                            let updateText = '';
+                            if (days > 0) {
+                                updateText = `${days} روز پیش`;
+                            } else if (hours > 0) {
+                                updateText = `${hours} ساعت پیش`;
+                            } else if (minutes > 0) {
+                                updateText = `${minutes} دقیقه پیش`;
                             } else {
-                                lastUpdateElement.textContent = 'آخرین بروزرسانی: یافت نشد';
+                                updateText = 'اکنون';
                             }
+
+                            lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
                         })
                         .catch(error => {
-                            console.error('Error fetching last update time:', error);
-                            lastUpdateElement.textContent = 'آخرین بروزرسانی: ناتوان از بارگذاری';
+                            console.error('Error fetching last update time from your API:', error);
                         });
                 });
             })
