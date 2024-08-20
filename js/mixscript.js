@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     links.forEach(url => {
         const urlParts = url.split('/');
-        const fileName = urlParts[urlParts.length - 1].split('.')[0]; // Extract filename without extension
-        const userName = urlParts[3]; // Extract username from URL
-        const repoName = urlParts[4]; // Extract repository name
-        const filePath = urlParts.slice(5).join('/'); // Extract file path
+        const fileName = urlParts[urlParts.length - 1].split('.')[0];
+        const userName = urlParts[3];
+        const repoName = urlParts[4];
+        const filePath = urlParts.slice(5).join('/');
         const displayName = `${userName}-${fileName}`;
 
         fetch(url)
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const lastUpdateElement = document.createElement('div');
                     lastUpdateElement.className = 'last-update';
-                    lastUpdateElement.textContent = 'آخرین بروزرسانی: در حال بررسی...'; // Placeholder text
+                    lastUpdateElement.textContent = 'آخرین بروزرسانی: در حال بررسی...';
 
                     linkBox.appendChild(nameElement);
                     linkBox.appendChild(copyButton);
