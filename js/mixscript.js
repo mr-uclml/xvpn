@@ -63,7 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             'Authorization': `token ${githubToken}`
                         }
                     })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('File not found or other error');
+                            }
+                            return response.json();
+                        })
                         .then(data => {
                             const lastUpdateDate = new Date(data.commit.committer.date);
                             const now = new Date();
@@ -87,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         })
                         .catch(error => {
                             console.error('Error fetching last update time:', error);
+                            lastUpdateElement.textContent = 'آخرین بروزرسانی: ناتوان از بارگذاری';
                         });
                 });
             })
