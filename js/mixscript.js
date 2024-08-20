@@ -55,15 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     linkContainer.appendChild(linkBox);
 
-                    // Fetch the last update time from GitHub API
-                    fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/${filePath}`, {
-                        headers: {
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    })
+                    // Fetch the last update time from Flask server
+                    fetch(`https://v2rayng.pythonanywhere.com/api/last_update?file_url=${encodeURIComponent(url)}`)
                         .then(response => response.json())
                         .then(data => {
-                            const lastUpdateDate = new Date(data.commit.committer.date);
+                            const lastUpdateDate = new Date(data.last_update);
                             const now = new Date();
                             const timeDiff = now - lastUpdateDate;
                             const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
