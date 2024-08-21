@@ -1,10 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const reqbinUrl = `${proxyUrl}https://apius.reqbin.com/api/v1/requests`;
-
     const links = [
         'https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/master/list_raw.txt',
-        // ... سایر لینک‌ها
+        'https://raw.githubusercontent.com/cry0ice/genode/main/public/all.txt',
+        'https://raw.githubusercontent.com/LalatinaHub/Mineral/master/result/nodes',
+        'https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.txt',
+        'https://raw.githubusercontent.com/mfuu/v2ray/master/v2ray',
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/normal/mix',
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
+        'https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/master/list_raw.txt',
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg4.txt',
+        'https://raw.githubusercontent.com/firefoxmmx2/v2rayshare_subcription/main/subscription/vray_sub.txt',
+        'https://raw.githubusercontent.com/Vauth/node/main/Master',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/proxy_kafee',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/vmessorg',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/flyv2ray',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/-1001698381150',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/v2ray1_ng',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/vlessconfig',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/dailyv2ry',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/outline_vpn',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/servernett',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/directvpn',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/arv2ray',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/freakconfig',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/v2rayng_vpnrog',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/proxy_mtm',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/Legendaryking_Servers',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/isvvpn',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/outlinev2rayng',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/nim_vpn_ir',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/privatevpns',
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/mehrosaboran'
     ];
 
     const linkContainer = document.getElementById('link-container');
@@ -28,81 +56,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchData = async () => {
         try {
-            const requests = links.map(url => {
-                const payload = {
-                    "id": "0",
-                    "name": "",
-                    "errors": "",
-                    "json": JSON.stringify({
-                        "method": "GET",
-                        "url": `https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`,
-                        "apiNode": "US",
-                        "contentType": "",
-                        "headers": "Accept: application/json",
-                        "errors": "",
-                        "curlCmd": "",
-                        "codeCmd": "",
-                        "jsonCmd": "",
-                        "xmlCmd": "",
-                        "lang": "",
-                        "auth": {
-                            "auth": "noAuth",
-                            "bearerToken": "",
-                            "basicUsername": "",
-                            "basicPassword": "",
-                            "customHeader": "",
-                            "encrypted": ""
-                        },
-                        "compare": false,
-                        "idnUrl": `https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`
-                    }),
-                    "sessionId": "",
-                    "deviceId": ""
-                };
-
-                return fetch(reqbinUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
+            const results = await Promise.all(links.map(url => 
+                fetch(https://corsproxy.io/https://v2rayn.pythonanywhere.com/file-update?file_url=${url})
+                .then(response => response.json())
                 .then(data => {
-                    try {
-                        const content = JSON.parse(data.Content);
-                        const lastUpdate = new Date(content.time_difference);
-                        return {
-                            url,
-                            timeDifference: convertToReadableTime(lastUpdate),
-                            lastUpdate
-                        };
-                    } catch (e) {
-                        console.error('Error parsing content:', e);
-                        return null;
-                    }
-                });
-            });
+                    const lastUpdate = new Date(data.time_difference);
+                    return {
+                        url,
+                        timeDifference: convertToReadableTime(lastUpdate),
+                        lastUpdate
+                    };
+                })
+            ));
 
-            const results = await Promise.all(requests);
-
-            const validResults = results.filter(result => result !== null);
-            validResults.sort((a, b) => b.lastUpdate - a.lastUpdate);
+            results.sort((a, b) => b.lastUpdate - a.lastUpdate);
 
             linkContainer.innerHTML = '';
 
-            validResults.forEach(({ url, timeDifference }) => {
+            results.forEach(({ url, timeDifference }) => {
                 const urlParts = url.split('/');
                 const fileName = urlParts[urlParts.length - 1].split('.')[0];
                 const userName = urlParts[3];
                 const repoName = urlParts[4];
-                const displayName = `${userName}-${fileName}`;
-                const repoUrl = `https://github.com/${userName}/${repoName}`;
+                const displayName = ${userName}-${fileName};
+                const repoUrl = https://github.com/${userName}/${repoName};
 
                 const linkBox = document.createElement('div');
                 linkBox.className = 'link-box';
@@ -128,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const lastUpdateElement = document.createElement('div');
                 lastUpdateElement.className = 'last-update';
-                lastUpdateElement.textContent = `آخرین بروزرسانی: ${timeDifference}`;
+                lastUpdateElement.textContent = آخرین بروزرسانی: ${timeDifference};
 
                 linkBox.appendChild(nameElement);
                 linkBox.appendChild(copyButton);
