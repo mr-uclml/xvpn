@@ -25,23 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const links = text.trim().split('\n');
 
-            const results = await Promise.all(links.map(url => 
-                fetch(`https://corsproxy.io/?https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
-                .then(response => response.json())
-                .then(data => {
-                    const lastUpdate = new Date(data.time_difference);
-                    return {
-                        url,
-                        timeDifference: convertToReadableTime(lastUpdate),
-                        lastUpdate
-                    };
-                })
-            ));
-
-            results.sort((a, b) => b.lastUpdate - a.lastUpdate);
-
-            linkContainer.innerHTML = '';
-
 document.addEventListener('DOMContentLoaded', () => {
     let expandedQrCode = null; // نگهداری QR Code باز شده
 
@@ -142,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchData();
 });
+
 
         } catch (error) {
             console.error('Error fetching last update times:', error);
