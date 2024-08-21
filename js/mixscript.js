@@ -56,18 +56,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchData = async () => {
         try {
-            const results = await Promise.all(links.map(url => 
-                fetch(`https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
-                .then(response => response.json())
-                .then(data => {
-                    const lastUpdate = new Date(data.time_difference);
-                    return {
-                        url,
-                        timeDifference: convertToReadableTime(lastUpdate),
-                        lastUpdate
-                    };
-                })
-            ));
+            const results = await Promise.all(links.map(async (url) => {
+                const requestBody = JSON.stringify({
+                    method: 'POST',
+                    url: `https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`,
+                    apiNode: 'US',
+                    contentType: 'JSON',
+                    content: '',
+                    headers: 'Accept: application/json',
+                    errors: '',
+                    auth: {
+                        auth: 'noAuth'
+                    }
+                });
+
+                const response = await fetch('https://reqbin.com/echo/post/json', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: requestBody
+                });
+                const data = await response.json();
+                const lastUpdate = new Date(data.time_difference);
+                return {
+                    url,
+                    timeDifference: convertToReadableTime(lastUpdate),
+                    lastUpdate
+                };
+            }));
 
             results.sort((a, b) => b.lastUpdate - a.lastUpdate);
 
