@@ -38,24 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
 
-    const parseTimeDifference = (timeDifference) => {
-        if (timeDifference.includes('ثانیه')) {
-            return parseInt(timeDifference) * 1;
-        } else if (timeDifference.includes('دقیقه')) {
-            return parseInt(timeDifference) * 60;
-        } else if (timeDifference.includes('ساعت')) {
-            return parseInt(timeDifference) * 3600;
-        } else if (timeDifference.includes('روز')) {
-            return parseInt(timeDifference) * 86400;
-        } else if (timeDifference.includes('هفته')) {
-            return parseInt(timeDifference) * 604800;
-        } else if (timeDifference.includes('ماه')) {
-            return parseInt(timeDifference) * 2592000;
-        } else if (timeDifference.includes('سال')) {
-            return parseInt(timeDifference) * 31536000;
-        } else {
-            return Infinity;
-        }
+    const convertToReadableTime = (date) => {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        let interval = Math.floor(seconds / 31536000);
+
+        if (interval >= 1) return interval + " سال پیش";
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) return interval + " ماه پیش";
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) return interval + " روز پیش";
+        interval = Math.floor(seconds / 3600);
+        if (interval >= 1) return interval + " ساعت پیش";
+        interval = Math.floor(seconds / 60);
+        if (interval >= 1) return interval + " دقیقه پیش";
+        return Math.floor(seconds) + " ثانیه پیش";
     };
 
     const fetchData = async () => {
@@ -63,14 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const results = await Promise.all(links.map(url => 
                 fetch(`https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
-                .then(data => ({
-                    url,
-                    timeDifference: data.time_difference || 'اطلاعات موجود نیست',
-                    parsedTime: parseTimeDifference(data.time_difference || 'اطلاعات موجود نیست')
-                }))
+                .then(data => {
+                    const lastUpdate = new Date(data.time_difference);
+                    return {
+                        url,
+                        timeDifference: convertToReadableTime(lastUpdate),
+                        lastUpdate
+                    };
+                })
             ));
 
-            results.sort((a, b) => b.parsedTime - a.parsedTime);
+            results.sort((a, b) => b.lastUpdate - a.lastUpdate);
 
             linkContainer.innerHTML = '';
 
