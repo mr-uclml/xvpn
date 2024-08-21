@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
-    let openQRCode = null; // Variable to keep track of currently open QR code
 
     const convertToReadableTime = (date) => {
         const seconds = Math.floor((new Date() - date) / 1000);
@@ -25,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = await response.text();
             const links = text.trim().split('\n');
 
-            const results = await Promise.all(links.map(url => 
+            const results = await Promise.all(links.map(url =>
                 fetch(`https://corsproxy.io/?https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
                 .then(data => {
@@ -75,13 +74,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const qrCode = document.createElement('img');
                 qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
                 qrCode.className = 'qr-code';
-                
+
                 qrCode.onclick = () => {
-                    if (openQRCode && openQRCode !== qrCode) {
-                        openQRCode.classList.remove('qr-code-expanded');
+                    // Close any expanded QR code
+                    document.querySelectorAll('.qr-code-expanded').forEach(expandedCode => {
+                        expandedCode.classList.remove('qr-code-expanded');
+                        expandedCode.classList.add('qr-code-hidden');
+                    });
+
+                    // Toggle current QR code
+                    if (qrCode.classList.contains('qr-code-hidden')) {
+                        qrCode.classList.remove('qr-code-hidden');
+                        qrCode.classList.add('qr-code-expanded');
+                    } else {
+                        qrCode.classList.remove('qr-code-expanded');
+                        qrCode.classList.add('qr-code-hidden');
                     }
-                    qrCode.classList.toggle('qr-code-expanded');
-                    openQRCode = qrCode.classList.contains('qr-code-expanded') ? qrCode : null;
                 };
 
                 const lastUpdateElement = document.createElement('div');
