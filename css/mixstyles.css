@@ -115,21 +115,24 @@ header {
 
 .qr-code {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    width: 40px;
-    height: 40px;
+    bottom: 20px; /* فاصله از پایین باکس */
+    left: 50%; /* مرکزیت افقی */
+    transform: translateX(-50%); /* مرکزیت افقی */
+    width: 40px; /* اندازه QR کد در حالت عادی */
+    height: 40px; /* اندازه QR کد در حالت عادی */
     cursor: pointer;
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 8px;
+    z-index: 1;
 }
 
 .qr-code-expanded {
-    width: 100px; /* اندازه QR کد در حالت باز شده */
-    height: 100px; /* اندازه QR کد در حالت باز شده */
-    bottom: 20px; /* فاصله از پایین جعبه */
-    left: 50%; /* مرکزیت افقی QR کد */
-    transform: translateX(-50%) scale(2); /* مرکزیت افقی و بزرگ‌نمایی QR کد */
+    width: 100%; /* عرض QR کد به اندازه عرض باکس */
+    height: auto; /* ارتفاع به‌طور خودکار تنظیم شود */
+    max-width: 150px; /* حداکثر عرض QR کد */
+    max-height: 150px; /* حداکثر ارتفاع QR کد */
+    transform: translateX(-50%) scale(2); /* بزرگ‌نمایی QR کد و مرکزیت افقی */
+    bottom: 10px; /* فاصله از پایین باکس */
     z-index: 10;
 }
 
