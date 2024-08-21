@@ -33,6 +33,10 @@ header {
 }
 
 
+.vip-box {
+    border: 3px solid #ffeb3b; /* زرد روشن */
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5); /* سایه زرد ملایم */
+}
 
 
 .link-box:hover {
