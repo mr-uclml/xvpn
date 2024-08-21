@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/eliv2ray',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
         'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/normal/mix',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
-        'https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/master/list_raw.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg4.txt'
     ];
 
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }))
             ));
 
-            results.sort((a, b) => a.parsedTime - b.parsedTime);
+            results.sort((a, b) => b.parsedTime - a.parsedTime);
 
             linkContainer.innerHTML = '';
 
