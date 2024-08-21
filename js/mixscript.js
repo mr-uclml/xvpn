@@ -55,25 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
             .then(response => response.json())
             .then(data => {
-                const lastUpdateDate = new Date(data.datetime);
-                const now = new Date();
-                const timeDiff = now - lastUpdateDate;
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor(timeDiff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                const minutes = Math.floor(timeDiff % (1000 * 60 * 60) / (1000 * 60));
+                const lastUpdateDate = new Date(data.time_difference);
 
-                let updateText = '';
-                if (days > 0) {
-                    updateText = `${days} روز پیش`;
-                } else if (hours > 0) {
-                    updateText = `${hours} ساعت پیش`;
-                } else if (minutes > 0) {
-                    updateText = `${minutes} دقیقه پیش`;
-                } else {
-                    updateText = 'اکنون';
-                }
-
-                lastUpdateElement.textContent = `آخرین بروزرسانی: ${updateText}`;
+                lastUpdateElement.textContent = `آخرین بروزرسانی: ${lastUpdateDate}`;
             })
             .catch(error => {
                 console.error('Error fetching last update time:', error);
