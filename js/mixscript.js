@@ -1,14 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
+        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/normal/mix',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
-        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg4.txt',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/normal/mix'
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg4.txt'
     ];
 
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
+
+    const timeStringToDate = (timeString) => {
+        const now = new Date();
+        const timeUnits = {
+            'دقیقه': 60000,
+            'ساعت': 3600000,
+            'روز': 86400000,
+            'ماه': 2592000000,
+            'سال': 31536000000
+        };
+        
+        for (const [unit, ms] of Object.entries(timeUnits)) {
+            const regex = new RegExp(`(\\d+) ${unit} پیش`);
+            const match = timeString.match(regex);
+            if (match) {
+                const timeAmount = parseInt(match[1], 10);
+                return new Date(now.getTime() - (timeAmount * ms));
+            }
+        }
+        
+        return new Date(0); // Fallback to a very old date if no match
+    };
 
     const fetchData = async () => {
         try {
@@ -21,12 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }))
             ));
 
-            // Sort results based on the `timeDifference` or another timestamp if available
+            // Sort results based on the `timeDifference` converted to date
             results.sort((a, b) => {
-                // You might need to parse `timeDifference` if it's a timestamp
-                // Here, we're assuming `timeDifference` is a human-readable string
-                // Adjust sorting logic according to your data structure
-                return new Date(b.timeDifference) - new Date(a.timeDifference);
+                const dateA = timeStringToDate(a.timeDifference);
+                const dateB = timeStringToDate(b.timeDifference);
+                return dateB - dateA; // Newest first
             });
 
             // Clear existing items in the container
