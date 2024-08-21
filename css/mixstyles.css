@@ -98,19 +98,24 @@ header {
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 8px;
-    z-index: 1; /* مطمئن شدن که QR کوچک بالای بقیه المان ها قرار می‌گیرد */
+    z-index: 1;
+}
+
+.qr-code:hover {
+    transform: scale(1.2); 
 }
 
 .qr-code-expanded {
-    position: fixed; /* تغییر position به fixed */
+    position: fixed;
     width: 150px;
     height: 150px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000; /* بالاتر از بقیه عناصر */
+    z-index: 1000;
     border-radius: 12px;
 }
+
 
 
 
