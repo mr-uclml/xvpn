@@ -116,8 +116,7 @@ header {
 .qr-code {
     position: absolute;
     bottom: 10px;
-    left: 50%; /* مرکزیت افقی */
-    transform: translateX(-50%); /* جبران جابجایی */
+    left: 10px;
     width: 40px;
     height: 40px;
     cursor: pointer;
@@ -129,10 +128,10 @@ header {
     width: 100px; /* اندازه QR کد در حالت باز شده */
     height: 100px; /* اندازه QR کد در حالت باز شده */
     bottom: 20px; /* فاصله از پایین جعبه */
-    transform: translateX(-50%) scale(2); /* بزرگ‌نمایی و مرکزیت */
+    left: 50%; /* مرکزیت افقی QR کد */
+    transform: translateX(-50%) scale(2); /* مرکزیت افقی و بزرگ‌نمایی QR کد */
     z-index: 10;
 }
-
 
 .last-update {
     font-size: 3vw; /* Responsive font size for last update */
