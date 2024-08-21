@@ -1,31 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const linkContainer = document.getElementById('link-container');
-    const splashScreen = document.getElementById('splash-screen');
-
-    const convertToReadableTime = (date) => {
-        const seconds = Math.floor((new Date() - date) / 1000);
-        let interval = Math.floor(seconds / 31536000);
-
-        if (interval >= 1) return interval + " سال پیش";
-        interval = Math.floor(seconds / 2592000);
-        if (interval >= 1) return interval + " ماه پیش";
-        interval = Math.floor(seconds / 86400);
-        if (interval >= 1) return interval + " روز پیش";
-        interval = Math.floor(seconds / 3600);
-        if (interval >= 1) return interval + " ساعت پیش";
-        interval = Math.floor(seconds / 60);
-        if (interval >= 1) return interval + " دقیقه پیش";
-        return Math.floor(seconds) + " ثانیه پیش";
-    };
-
-    const fetchData = async () => {
-        try {
-            const response = await fetch('/source.txt');
-            const text = await response.text();
-
-            const links = text.trim().split('\n');
-
-document.addEventListener('DOMContentLoaded', () => {
     let expandedQrCode = null; // نگهداری QR Code باز شده
 
     const linkContainer = document.getElementById('link-container');
@@ -120,19 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } catch (error) {
             console.error('Error fetching last update times:', error);
-        }
-    };
-
-    fetchData();
-});
-
-
-        } catch (error) {
-            console.error('Error fetching last update times:', error);
-        } finally {
-            setTimeout(() => {
-                splashScreen.classList.add('hidden');
-            }, 3000);
         }
     };
 
