@@ -96,25 +96,20 @@ header {
     width: 40px;
     height: 40px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 8px;
     z-index: 1;
 }
 
-.qr-code:hover {
-    transform: scale(1.2); 
-}
-
 .qr-code-expanded {
-    position: fixed;
     width: 150px;
     height: 150px;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    border-radius: 12px;
+    bottom: 50%;
+    transform: translate(-50%, 50%) scale(1.5); /* مرکزیت در باکس */
+    z-index: 10;
 }
+
 
 
 
