@@ -56,13 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.time_difference) {
-                    const lastUpdateDate = new Date(data.date); // Use the actual date returned from API
-
-                    // Convert date to a readable format in Persian
-                    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'UTC' };
-                    const formattedDate = lastUpdateDate.toLocaleDateString('fa-IR', options); // Persian locale
-
-                    lastUpdateElement.textContent = `آخرین بروزرسانی: ${formattedDate}`;
+                    lastUpdateElement.textContent = `آخرین بروزرسانی: ${data.time_difference}`;
                 } else {
                     lastUpdateElement.textContent = 'آخرین بروزرسانی: اطلاعات موجود نیست';
                 }
