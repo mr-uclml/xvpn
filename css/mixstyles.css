@@ -125,15 +125,16 @@ header {
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 8px;
     z-index: 1;
-    transform: translateX(-50%); /* Center horizontally */
+
 }
 
 .qr-code-expanded {
-    width: 150px;
-    height: 150px;
+    width: 70px;
+    height: 70px;
     bottom: 50%; /* Position vertically at the middle */
     left: 50%;
-    transform: translate(-50%, 50%) scale(1.5); /* Center horizontally and adjust vertical position */
+    bottom: 10px; /* Adjusted to ensure the QR code stays within the box */
+   transform: translate(-50%, 50%) scale(1.5);
     z-index: 10;
 }
 
