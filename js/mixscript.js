@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }))
             ));
 
-            results.sort((a, b) => a.parsedTime - b.parsedTime);
+            results.sort((a, b) => b.parsedTime - a.parsedTime);
 
             linkContainer.innerHTML = '';
 
