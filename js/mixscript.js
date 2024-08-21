@@ -76,12 +76,8 @@ results.forEach(({ url, timeDifference }) => {
     qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
     qrCode.className = 'qr-code';
 
-    qrCode.onmouseover = () => {
-        qrCode.classList.add('qr-code-expanded');
-    };
-
-    qrCode.onmouseout = () => {
-        qrCode.classList.remove('qr-code-expanded');
+    qrCode.onclick = () => {
+        qrCode.classList.toggle('qr-code-expanded');
     };
 
     const lastUpdateElement = document.createElement('div');
@@ -96,6 +92,7 @@ results.forEach(({ url, timeDifference }) => {
 
     linkContainer.appendChild(linkBox);
 });
+
 
         } catch (error) {
             console.error('Error fetching last update times:', error);
