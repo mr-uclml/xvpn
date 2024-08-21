@@ -1,7 +1,7 @@
 const convertToReadableTime = (date) => {
     // تبدیل تاریخ از UTC به منطقه زمانی محلی
     const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
-.
+
     const seconds = Math.floor((new Date() - localDate) / 1000);
     let interval = Math.floor(seconds / 31536000);
 
