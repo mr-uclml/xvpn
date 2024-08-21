@@ -1,36 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = [
-        
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
-        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
         'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/normal/mix',
+        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
         'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg4.txt'
     ];
 
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
 
-    const timeStringToDate = (timeString) => {
-        const now = new Date();
-        const timeUnits = {
-            'دقیقه': 60000,
-            'ساعت': 3600000,
-            'روز': 86400000,
-            'ماه': 2592000000,
-            'سال': 31536000000
-        };
-        
-        for (const [unit, ms] of Object.entries(timeUnits)) {
-            const regex = new RegExp(`(\\d+) ${unit} پیش`);
-            const match = timeString.match(regex);
-            if (match) {
-                const timeAmount = parseInt(match[1], 10);
-                return new Date(now.getTime() - (timeAmount * ms));
-            }
+    const parseTimeDifference = (timeDifference) => {
+        const parts = timeDifference.split(' ');
+        const value = parseInt(parts[0], 10);
+        const unit = parts[1];
+
+        switch (unit) {
+            case 'ثانیه':
+                return value;
+            case 'دقیقه':
+                return value * 60;
+            case 'ساعت':
+                return value * 3600;
+            case 'روز':
+                return value * 86400;
+            case 'هفته':
+                return value * 604800;
+            case 'ماه':
+                return value * 2592000;
+            case 'سال':
+                return value * 31536000;
+            default:
+                return Infinity;
         }
-        
-        return new Date(0); // Fallback to a very old date if no match
     };
 
     const fetchData = async () => {
@@ -40,21 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => ({
                     url,
-                    timeDifference: data.time_difference || 'اطلاعات موجود نیست'
+                    timeDifference: data.time_difference || 'اطلاعات موجود نیست',
+                    parsedTime: parseTimeDifference(data.time_difference || 'اطلاعات موجود نیست')
                 }))
             ));
 
-            // Sort results based on the `timeDifference` converted to date
-            results.sort((a, b) => {
-                const dateA = timeStringToDate(a.timeDifference);
-                const dateB = timeStringToDate(b.timeDifference);
-                return dateB - dateA; // Newest first
-            });
+            results.sort((a, b) => a.parsedTime - b.parsedTime);
 
-            // Clear existing items in the container
             linkContainer.innerHTML = '';
 
-            // Append sorted items to the container
             results.forEach(({ url, timeDifference }) => {
                 const urlParts = url.split('/');
                 const fileName = urlParts[urlParts.length - 1].split('.')[0];
@@ -98,12 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } catch (error) {
             console.error('Error fetching last update times:', error);
-            // Handle error as needed
         } finally {
-            // Hide splash screen after data is processed
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
-            }, 10000); // Show splash screen for 10 seconds
+            }, 10000);
         }
     };
 
