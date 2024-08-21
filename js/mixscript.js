@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             linkContainer.innerHTML = '';
 
-            results.forEach(({ url, timeDifference }) => {
+results.forEach(({ url, timeDifference }) => {
     const urlParts = url.split('/');
     const fileName = urlParts[urlParts.length - 1].split('.')[0];
     const userName = urlParts[3];
@@ -75,8 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const qrCode = document.createElement('img');
     qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
     qrCode.className = 'qr-code';
-    qrCode.onclick = () => {
-        qrCode.classList.toggle('qr-code-expanded');
+
+    qrCode.onmouseover = () => {
+        qrCode.classList.add('qr-code-expanded');
+    };
+
+    qrCode.onmouseout = () => {
+        qrCode.classList.remove('qr-code-expanded');
     };
 
     const lastUpdateElement = document.createElement('div');
