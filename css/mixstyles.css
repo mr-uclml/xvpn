@@ -46,7 +46,10 @@ header {
     justify-content: space-between;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Ensures the QR code does not overflow */
 }
+
+
 
 .link-box:hover {
     transform: translateY(-5px);
@@ -127,10 +130,11 @@ header {
     width: 150px;
     height: 150px;
     left: 50%;
-    bottom: 50%;
-    transform: translate(-50%, 50%) scale(1.5); /* Center the QR code */
+    bottom: 10px; /* Adjusted to ensure the QR code stays within the box */
+    transform: translate(-50%, 0) scale(1.5); /* Center the QR code horizontally and adjust vertical position */
     z-index: 10;
 }
+
 
 .last-update {
     font-size: 3vw; /* Responsive font size for last update */
