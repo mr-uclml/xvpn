@@ -93,23 +93,20 @@ header {
     position: absolute;
     bottom: 10px;
     left: 10px;
-    width: 40px; /* هم اندازه با گیت‌هاب لوگو */
+    width: 40px; 
     height: 40px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 8px;
 }
 
 .qr-code-expanded {
-    width: 150px; /* اندازه بزرگ QR code */
+    width: 150px; 
     height: 150px;
     z-index: 10;
-    transform: scale(1.5); /* افزایش مقیاس */
+    transform: scale(1.5); 
 }
 
-.qr-code:hover {
-    transform: scale(1.2);
-}
 
 
 .splash-screen.hidden {
