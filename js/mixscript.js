@@ -1,40 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const links = [
-        'https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/master/list_raw.txt',
-        'https://raw.githubusercontent.com/cry0ice/genode/main/public/all.txt',
-        'https://raw.githubusercontent.com/LalatinaHub/Mineral/master/result/nodes',
-        'https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.txt',
-        'https://raw.githubusercontent.com/mfuu/v2ray/master/v2ray',
-        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg1.txt',
-        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg2.txt',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/normal/mix',
-        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg3.txt',
-        'https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/master/list_raw.txt',
-        'https://raw.githubusercontent.com/Q3dlaXpoaQ/V2rayN_Clash_Node_Getter/main/APIs/cg4.txt',
-        'https://raw.githubusercontent.com/firefoxmmx2/v2rayshare_subcription/main/subscription/vray_sub.txt',
-        'https://raw.githubusercontent.com/Vauth/node/main/Master',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/proxy_kafee',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/vmessorg',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/flyv2ray',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/-1001698381150',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/v2ray1_ng',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/vlessconfig',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/dailyv2ry',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/outline_vpn',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/servernett',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/directvpn',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/arv2ray',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/freakconfig',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/v2rayng_vpnrog',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/proxy_mtm',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/Legendaryking_Servers',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/isvvpn',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/outlinev2rayng',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/nim_vpn_ir',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/privatevpns',
-        'https://raw.githubusercontent.com/itsyebekhe/HiN-VPN/main/subscription/source/normal/mehrosaboran'
-    ];
-
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
 
@@ -56,6 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchData = async () => {
         try {
+            const response = await fetch('/source.txt');
+            const text = await response.text();
+
+            const links = text.trim().split('\n');
+
             const results = await Promise.all(links.map(url => 
                 fetch(`https://corsproxy.io/?https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
