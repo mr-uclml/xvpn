@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
-    let openQRCode = null; // Variable to keep track of currently open QR code
 
     const convertToReadableTime = (date) => {
-        const seconds = Math.floor((new Date() - date) / 1000);
+        const now = new Date();
+        const seconds = Math.floor((now - date) / 1000);
         let interval = Math.floor(seconds / 31536000);
 
         if (interval >= 1) return interval + " سال پیش";
@@ -21,8 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchData = async () => {
         try {
+            // Fetch the list of URLs from the /source.txt file
             const response = await fetch('/source.txt');
             const text = await response.text();
+
+            // Split the file content by line breaks to get an array of URLs
             const links = text.trim().split('\n');
 
             const results = await Promise.all(links.map(url => 
@@ -75,13 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const qrCode = document.createElement('img');
                 qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
                 qrCode.className = 'qr-code';
-                
+
                 qrCode.onclick = () => {
-                    if (openQRCode && openQRCode !== qrCode) {
-                        openQRCode.classList.remove('qr-code-expanded');
+                    // Ensure only one QR code is expanded at a time
+                    const expandedQr = document.querySelector('.qr-code-expanded');
+                    if (expandedQr && expandedQr !== qrCode) {
+                        expandedQr.classList.remove('qr-code-expanded');
                     }
                     qrCode.classList.toggle('qr-code-expanded');
-                    openQRCode = qrCode.classList.contains('qr-code-expanded') ? qrCode : null;
                 };
 
                 const lastUpdateElement = document.createElement('div');
