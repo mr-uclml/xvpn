@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const links = text.trim().split('\n');
 
             const results = await Promise.all(links.map(url => 
-                fetch(`https://corsproxy.io/?https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
+                fetch(`https://corsproxy.io/?https://api.codetabs.com/v1/proxy/?quest=https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
                 .then(data => {
                     const lastUpdate = new Date(data.time_difference);
