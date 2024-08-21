@@ -1,15 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let expandedQrCode = null; // نگهداری QR Code باز شده
-
     const linkContainer = document.getElementById('link-container');
+    const splashScreen = document.getElementById('splash-screen');
+
+    const convertToReadableTime = (date) => {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        let interval = Math.floor(seconds / 31536000);
+
+        if (interval >= 1) return interval + " سال پیش";
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) return interval + " ماه پیش";
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) return interval + " روز پیش";
+        interval = Math.floor(seconds / 3600);
+        if (interval >= 1) return interval + " ساعت پیش";
+        interval = Math.floor(seconds / 60);
+        if (interval >= 1) return interval + " دقیقه پیش";
+        return Math.floor(seconds) + " ثانیه پیش";
+    };
 
     const fetchData = async () => {
         try {
+            // Fetch the list of URLs from the /source.txt file
             const response = await fetch('/source.txt');
             const text = await response.text();
+
+            // Split the file content by line breaks to get an array of URLs
             const links = text.trim().split('\n');
 
-            const results = await Promise.all(links.map(url =>
+            const results = await Promise.all(links.map(url => 
                 fetch(`https://corsproxy.io/?https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
                 .then(data => {
@@ -71,28 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 };
 
-                qrCode.onclick = () => {
-                    if (expandedQrCode && expandedQrCode !== qrCode) {
-                        expandedQrCode.classList.remove('qr-code-expanded');
-                    }
-                    qrCode.classList.toggle('qr-code-expanded');
-                    expandedQrCode = qrCode.classList.contains('qr-code-expanded') ? qrCode : null;
-                };
-
-                const lastUpdateElement = document.createElement('div');
-                lastUpdateElement.className = 'last-update';
-                lastUpdateElement.textContent = `بروزرسانی: ${timeDifference}`;
-
-                linkBox.appendChild(nameElement);
-                linkBox.appendChild(copyButton);
-                linkBox.appendChild(githubLogo);
-                linkBox.appendChild(qrCode);
-                linkBox.appendChild(lastUpdateElement);
-
-                linkContainer.appendChild(linkBox);
-            });
         } catch (error) {
             console.error('Error fetching last update times:', error);
+        } finally {
+            setTimeout(() => {
+                splashScreen.classList.add('hidden');
+            }, 3000);
         }
     };
 
