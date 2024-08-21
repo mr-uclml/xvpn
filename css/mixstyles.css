@@ -89,6 +89,29 @@ header {
     font-size: 2vw; /* Adjust as needed */
 }
 
+.qr-code {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 40px; /* هم اندازه با گیت‌هاب لوگو */
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+}
+
+.qr-code-expanded {
+    width: 150px; /* اندازه بزرگ QR code */
+    height: 150px;
+    z-index: 10;
+    transform: scale(1.5); /* افزایش مقیاس */
+}
+
+.qr-code:hover {
+    transform: scale(1.2);
+}
+
+
 .splash-screen.hidden {
     display: none;
 }
