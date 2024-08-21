@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
+    let expandedQrCode = null; // نگهداری QR Code باز شده
 
     const convertToReadableTime = (date) => {
         const seconds = Math.floor((new Date() - date) / 1000);
@@ -23,11 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fetch the list of URLs from the /source.txt file
             const response = await fetch('/source.txt');
             const text = await response.text();
-
-            // Split the file content by line breaks to get an array of URLs
             const links = text.trim().split('\n');
 
-            const results = await Promise.all(links.map(url => 
+            const results = await Promise.all(links.map(url =>
                 fetch(`https://corsproxy.io/?https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
                 .then(data => {
@@ -89,6 +88,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 };
 
+                qrCode.onclick = () => {
+                    if (expandedQrCode && expandedQrCode !== qrCode) {
+                        expandedQrCode.classList.remove('qr-code-expanded');
+                    }
+                    qrCode.classList.toggle('qr-code-expanded');
+                    expandedQrCode = qrCode.classList.contains('qr-code-expanded') ? qrCode : null;
+                };
+
+                const lastUpdateElement = document.createElement('div');
+                lastUpdateElement.className = 'last-update';
+                lastUpdateElement.textContent = `بروزرسانی: ${timeDifference}`;
+
+                linkBox.appendChild(nameElement);
+                linkBox.appendChild(copyButton);
+                linkBox.appendChild(githubLogo);
+                linkBox.appendChild(qrCode);
+                linkBox.appendChild(lastUpdateElement);
+
+                linkContainer.appendChild(linkBox);
+            });
         } catch (error) {
             console.error('Error fetching last update times:', error);
         } finally {
