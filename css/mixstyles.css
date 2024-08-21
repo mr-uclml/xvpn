@@ -127,8 +127,8 @@ header {
 }
 
 .qr-code-expanded {
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
     left: 50%;
     bottom: 10px; /* Adjusted to ensure the QR code stays within the box */
     transform: translate(-50%, 0) scale(1.5); /* Center the QR code horizontally and adjust vertical position */
