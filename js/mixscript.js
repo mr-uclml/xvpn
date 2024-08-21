@@ -55,12 +55,21 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
             .then(response => response.json())
             .then(data => {
-                const lastUpdateDate = new Date(data.time_difference);
+                if (data.time_difference) {
+                    const lastUpdateDate = new Date(data.date); // Use the actual date returned from API
 
-                lastUpdateElement.textContent = `آخرین بروزرسانی: ${lastUpdateDate}`;
+                    // Convert date to a readable format in Persian
+                    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'UTC' };
+                    const formattedDate = lastUpdateDate.toLocaleDateString('fa-IR', options); // Persian locale
+
+                    lastUpdateElement.textContent = `آخرین بروزرسانی: ${formattedDate}`;
+                } else {
+                    lastUpdateElement.textContent = 'آخرین بروزرسانی: اطلاعات موجود نیست';
+                }
             })
             .catch(error => {
                 console.error('Error fetching last update time:', error);
+                lastUpdateElement.textContent = 'آخرین بروزرسانی: خطا در دریافت اطلاعات';
             });
     });
 });
