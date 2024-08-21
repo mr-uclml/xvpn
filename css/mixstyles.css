@@ -46,6 +46,7 @@ header {
     justify-content: space-between;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* جلوگیری از بیرون زدن QR کد */
 }
 
 .link-box:hover {
@@ -111,6 +112,8 @@ header {
     transform: scale(1.2);
 }
 
+
+
 .qr-code {
     position: absolute;
     bottom: 10px;
@@ -120,15 +123,12 @@ header {
     cursor: pointer;
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 8px;
-    z-index: 1;
 }
 
 .qr-code-expanded {
     width: 150px;
     height: 150px;
-    left: 50%;
-    bottom: 50%;
-    transform: translate(-50%, 50%) scale(1.5); /* Center the QR code */
+    transform: scale(1.5); /* بزرگ‌نمایی QR کد */
     z-index: 10;
 }
 
