@@ -126,9 +126,11 @@ header {
 }
 
 .qr-code-expanded {
-    width: 150px;
-    height: 150px;
-    transform: scale(1.5); /* بزرگ‌نمایی QR کد */
+    width: 100px; /* اندازه QR کد در حالت باز شده */
+    height: 100px; /* اندازه QR کد در حالت باز شده */
+    bottom: 20px; /* فاصله از پایین جعبه */
+    left: 50%; /* مرکزیت افقی QR کد */
+    transform: translateX(-50%) scale(2); /* مرکزیت افقی و بزرگ‌نمایی QR کد */
     z-index: 10;
 }
 
