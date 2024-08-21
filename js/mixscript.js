@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchData = async () => {
         try {
             const results = await Promise.all(links.map(url => 
-                fetch(https://v2rayn.pythonanywhere.com/file-update?file_url=${url})
+                fetch(`https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
                 .then(data => {
                     const lastUpdate = new Date(data.time_difference);
@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fileName = urlParts[urlParts.length - 1].split('.')[0];
                 const userName = urlParts[3];
                 const repoName = urlParts[4];
-                const displayName = ${userName}-${fileName};
-                const repoUrl = https://github.com/${userName}/${repoName};
+                const displayName = `${userName}-${fileName}`;
+                const repoUrl = `https://github.com/${userName}/${repoName}`;
 
                 const linkBox = document.createElement('div');
                 linkBox.className = 'link-box';
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const lastUpdateElement = document.createElement('div');
                 lastUpdateElement.className = 'last-update';
-                lastUpdateElement.textContent = آخرین بروزرسانی: ${timeDifference};
+                lastUpdateElement.textContent = `آخرین بروزرسانی: ${timeDifference}`;
 
                 linkBox.appendChild(nameElement);
                 linkBox.appendChild(copyButton);
@@ -125,4 +125,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchData();
 });
- 
