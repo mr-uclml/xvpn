@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
     let openQRCode = null; // Variable to keep track of currently open QR code
+    let vipUsers = []; // Array to store VIP users
 
     const convertToReadableTime = (date) => {
         const seconds = Math.floor((new Date() - date) / 1000);
@@ -19,7 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.floor(seconds) + " ثانیه پیش";
     };
 
+    const fetchVipUsers = async () => {
+        try {
+            const response = await fetch('/vip.txt');
+            const text = await response.text();
+            vipUsers = text.trim().split('\n'); // Store VIP users
+        } catch (error) {
+            console.error('Error fetching VIP users:', error);
+        }
+    };
+
     const fetchData = async () => {
+        await fetchVipUsers(); // Fetch VIP users first
+
         try {
             const response = await fetch('/source.txt');
             const text = await response.text();
@@ -52,6 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const linkBox = document.createElement('div');
                 linkBox.className = 'link-box';
+
+                // Add VIP class if userName is in vipUsers
+                if (vipUsers.includes(userName)) {
+                    linkBox.classList.add('vip-box');
+                }
 
                 const nameElement = document.createElement('div');
                 nameElement.className = 'link-name';
