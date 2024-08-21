@@ -68,7 +68,7 @@ header {
     max-width: 150px; /* حداکثر عرض QR کد */
     max-height: 150px; /* حداکثر ارتفاع QR کد */
     bottom: 10px; /* فاصله از پایین باکس */
-    right: 10px; /* فاصله از سمت راست باکس */
+    left: 10px; /* فاصله از سمت راست باکس */
     transform: scale(2); /* بزرگ‌نمایی QR کد */
     z-index: 10;
 }
