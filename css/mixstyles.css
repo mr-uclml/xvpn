@@ -133,6 +133,7 @@ header {
     height: 65px;
     bottom: 50%; /* Position vertically at the middle */
     left: 50%;
+    border-radius: 0;
     bottom: 10px; /* Adjusted to ensure the QR code stays within the box */
    transform: translate(-50%, -15%) scale(1.5);
     z-index: 10;
