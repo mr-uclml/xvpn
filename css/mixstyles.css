@@ -70,7 +70,7 @@ header {
     height: auto; /* ارتفاع به‌طور خودکار تنظیم شود */
     max-width: 150px; /* حداکثر عرض QR کد */
     max-height: 150px; /* حداکثر ارتفاع QR کد */
-    transform: scale(1.5); /* بزرگ‌نمایی QR کد */
+    transform: scale(2); /* بزرگ‌نمایی QR کد */
     opacity: 1; /* نمایش QR کد */
     z-index: 10;
 }
@@ -79,6 +79,7 @@ header {
     opacity: 0; /* پنهان کردن QR کد */
     transform: scale(0); /* کوچک‌نمایی QR کد به اندازه صفر */
 }
+
 
 
 
