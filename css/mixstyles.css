@@ -32,22 +32,6 @@ header {
     max-width: 1200px;
 }
 
-.link-box {
-    position: relative;
-    background-color: #333;
-    padding: 20px;
-    border-radius: 12px;
-    width: 100%;
-    flex-basis: calc(100% - 40px);
-    max-width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden; /* Ensures the QR code does not overflow */
-}
 
 
 
@@ -114,26 +98,45 @@ header {
     transform: scale(1.2);
 }
 
+.link-box {
+    position: relative;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    flex-basis: calc(100% - 40px);
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Ensures the QR code does not overflow */
+}
+
 .qr-code {
     position: absolute;
     bottom: 10px;
-    left: 10px;
+    left: 50%;
     width: 40px;
     height: 40px;
     cursor: pointer;
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 8px;
     z-index: 1;
+    transform: translateX(-50%); /* Center horizontally */
 }
 
 .qr-code-expanded {
-    width: 70px;
-    height: 70px;
+    width: 150px;
+    height: 150px;
+    bottom: 50%; /* Position vertically at the middle */
     left: 50%;
-    bottom: 10px; /* Adjusted to ensure the QR code stays within the box */
-    transform: translate(-50%, 0) scale(1.5); /* Center the QR code horizontally and adjust vertical position */
+    transform: translate(-50%, 50%) scale(1.5); /* Center horizontally and adjust vertical position */
     z-index: 10;
 }
+
 
 
 .last-update {
