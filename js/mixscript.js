@@ -12,27 +12,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const splashScreen = document.getElementById('splash-screen');
 
     const parseTimeDifference = (timeDifference) => {
-        const parts = timeDifference.split(' ');
-        const value = parseInt(parts[0], 10);
-        const unit = parts[1];
-
-        switch (unit) {
-            case 'ثانیه':
-                return value;
-            case 'دقیقه':
-                return value * 60;
-            case 'ساعت':
-                return value * 3600;
-            case 'روز':
-                return value * 86400;
-            case 'هفته':
-                return value * 604800;
-            case 'ماه':
-                return value * 2592000;
-            case 'سال':
-                return value * 31536000;
-            default:
-                return Infinity;
+        if (timeDifference.includes('ثانیه')) {
+            return parseInt(timeDifference) * 1;
+        } else if (timeDifference.includes('دقیقه')) {
+            return parseInt(timeDifference) * 60;
+        } else if (timeDifference.includes('ساعت')) {
+            return parseInt(timeDifference) * 3600;
+        } else if (timeDifference.includes('روز')) {
+            return parseInt(timeDifference) * 86400;
+        } else if (timeDifference.includes('هفته')) {
+            return parseInt(timeDifference) * 604800;
+        } else if (timeDifference.includes('ماه')) {
+            return parseInt(timeDifference) * 2592000;
+        } else if (timeDifference.includes('سال')) {
+            return parseInt(timeDifference) * 31536000;
+        } else {
+            return Infinity;
         }
     };
 
@@ -48,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }))
             ));
 
-            results.sort((a, b) => b.parsedTime - a.parsedTime);
+            results.sort((a, b) => a.parsedTime - b.parsedTime);
 
             linkContainer.innerHTML = '';
 
