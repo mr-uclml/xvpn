@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const reqbinUrl = 'https://apius.reqbin.com/api/v1/requests'; // لینک API ReqBin
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const reqbinUrl = `${proxyUrl}https://apius.reqbin.com/api/v1/requests`;
 
     const links = [
         'https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/master/list_raw.txt',
-        
+        // ... سایر لینک‌ها
     ];
 
     const linkContainer = document.getElementById('link-container');
