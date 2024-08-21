@@ -67,25 +67,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     body: JSON.stringify(payload)
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    const content = JSON.parse(data.Content);
-                    const lastUpdate = new Date(content.time_difference);
-                    return {
-                        url,
-                        timeDifference: convertToReadableTime(lastUpdate),
-                        lastUpdate
-                    };
+                    try {
+                        const content = JSON.parse(data.Content);
+                        const lastUpdate = new Date(content.time_difference);
+                        return {
+                            url,
+                            timeDifference: convertToReadableTime(lastUpdate),
+                            lastUpdate
+                        };
+                    } catch (e) {
+                        console.error('Error parsing content:', e);
+                        return null;
+                    }
                 });
             });
 
             const results = await Promise.all(requests);
 
-            results.sort((a, b) => b.lastUpdate - a.lastUpdate);
+            const validResults = results.filter(result => result !== null);
+            validResults.sort((a, b) => b.lastUpdate - a.lastUpdate);
 
             linkContainer.innerHTML = '';
 
-            results.forEach(({ url, timeDifference }) => {
+            validResults.forEach(({ url, timeDifference }) => {
                 const urlParts = url.split('/');
                 const fileName = urlParts[urlParts.length - 1].split('.')[0];
                 const userName = urlParts[3];
