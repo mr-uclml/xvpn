@@ -92,9 +92,6 @@ results.forEach(({ url, timeDifference }) => {
 
     linkContainer.appendChild(linkBox);
 });
-
-
-
         } catch (error) {
             console.error('Error fetching last update times:', error);
         } finally {
