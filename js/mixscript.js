@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const lastUpdateElement = document.createElement('div');
                 lastUpdateElement.className = 'last-update';
-                lastUpdateElement.textContent = `آخرین بروزرسانی: ${timeDifference}`;
+                lastUpdateElement.textContent = `بروزرسانی: ${timeDifference}`;
 
                 linkBox.appendChild(nameElement);
                 linkBox.appendChild(copyButton);
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
-            }, 10000);
+            }, 3000);
         }
     };
 
