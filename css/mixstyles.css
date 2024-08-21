@@ -73,6 +73,9 @@ header {
     transition: background-color 0.3s ease;
 }
 
+.copy-button:hover {
+    background-color: #ffab40;
+}
 
 .splash-screen {
     position: fixed;
@@ -87,6 +90,25 @@ header {
     align-items: center;
     z-index: 1000;
     font-size: 2vw; /* Adjust as needed */
+}
+
+.splash-screen.hidden {
+    display: none;
+}
+
+.github-logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+}
+
+.github-logo:hover {
+    transform: scale(1.2);
 }
 
 .qr-code {
@@ -106,37 +128,8 @@ header {
     height: 150px;
     left: 50%;
     bottom: 50%;
-    transform: translate(-50%, 50%) scale(1.5); /* مرکزیت در باکس */
+    transform: translate(-50%, 50%) scale(1.5); /* Center the QR code */
     z-index: 10;
-}
-
-
-
-
-
-
-.splash-screen.hidden {
-    display: none;
-}
-
-
-.copy-button:hover {
-    background-color: #ffab40;
-}
-
-.github-logo {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    border-radius: 50%;
-}
-
-.github-logo:hover {
-    transform: scale(1.2);
 }
 
 .last-update {
@@ -165,8 +158,8 @@ footer {
     }
 
     .github-logo {
-        width: 10px;
-        height: 10px;
+        width: 30px;
+        height: 30px;
     }
 
     .last-update {
