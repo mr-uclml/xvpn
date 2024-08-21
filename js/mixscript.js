@@ -43,46 +43,55 @@ document.addEventListener('DOMContentLoaded', () => {
             linkContainer.innerHTML = '';
 
             results.forEach(({ url, timeDifference }) => {
-                const urlParts = url.split('/');
-                const fileName = urlParts[urlParts.length - 1].split('.')[0];
-                const userName = urlParts[3];
-                const repoName = urlParts[4];
-                const displayName = `${userName}-${fileName}`;
-                const repoUrl = `https://github.com/${userName}/${repoName}`;
+    const urlParts = url.split('/');
+    const fileName = urlParts[urlParts.length - 1].split('.')[0];
+    const userName = urlParts[3];
+    const repoName = urlParts[4];
+    const displayName = `${userName}-${fileName}`;
+    const repoUrl = `https://github.com/${userName}/${repoName}`;
 
-                const linkBox = document.createElement('div');
-                linkBox.className = 'link-box';
+    const linkBox = document.createElement('div');
+    linkBox.className = 'link-box';
 
-                const nameElement = document.createElement('div');
-                nameElement.className = 'link-name';
-                nameElement.textContent = displayName;
+    const nameElement = document.createElement('div');
+    nameElement.className = 'link-name';
+    nameElement.textContent = displayName;
 
-                const copyButton = document.createElement('button');
-                copyButton.className = 'copy-button';
-                copyButton.textContent = 'لینک ساب';
-                copyButton.onclick = () => {
-                    navigator.clipboard.writeText(url);
-                    alert('لینک کپی شد!');
-                };
+    const copyButton = document.createElement('button');
+    copyButton.className = 'copy-button';
+    copyButton.textContent = 'لینک ساب';
+    copyButton.onclick = () => {
+        navigator.clipboard.writeText(url);
+        alert('لینک کپی شد!');
+    };
 
-                const githubLogo = document.createElement('img');
-                githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
-                githubLogo.className = 'github-logo';
-                githubLogo.onclick = () => {
-                    window.open(repoUrl, '_blank');
-                };
+    const githubLogo = document.createElement('img');
+    githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
+    githubLogo.className = 'github-logo';
+    githubLogo.onclick = () => {
+        window.open(repoUrl, '_blank');
+    };
 
-                const lastUpdateElement = document.createElement('div');
-                lastUpdateElement.className = 'last-update';
-                lastUpdateElement.textContent = `بروزرسانی: ${timeDifference}`;
+    const qrCode = document.createElement('img');
+    qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
+    qrCode.className = 'qr-code';
+    qrCode.onclick = () => {
+        qrCode.classList.toggle('qr-code-expanded');
+    };
 
-                linkBox.appendChild(nameElement);
-                linkBox.appendChild(copyButton);
-                linkBox.appendChild(githubLogo);
-                linkBox.appendChild(lastUpdateElement);
+    const lastUpdateElement = document.createElement('div');
+    lastUpdateElement.className = 'last-update';
+    lastUpdateElement.textContent = `بروزرسانی: ${timeDifference}`;
 
-                linkContainer.appendChild(linkBox);
-            });
+    linkBox.appendChild(nameElement);
+    linkBox.appendChild(copyButton);
+    linkBox.appendChild(githubLogo);
+    linkBox.appendChild(qrCode);
+    linkBox.appendChild(lastUpdateElement);
+
+    linkContainer.appendChild(linkBox);
+});
+
         } catch (error) {
             console.error('Error fetching last update times:', error);
         } finally {
