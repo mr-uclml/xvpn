@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
+    const helpButton = document.getElementById('help-button');
+    const okButton = document.getElementById('ok-button');
     let openQRCode = null; // Variable to keep track of currently open QR code
     let vipUsers = []; // Array to store VIP users
 
@@ -123,6 +125,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 3000);
         }
     };
+
+    // Function to show the splash screen
+    const showSplashScreen = () => {
+        splashScreen.style.display = 'flex';
+    };
+
+    // Function to hide the splash screen
+    const hideSplashScreen = () => {
+        splashScreen.style.display = 'none';
+    };
+
+    // Event listener for help button
+    helpButton.addEventListener('click', showSplashScreen);
+
+    // Event listener for OK button on the splash screen
+    okButton.addEventListener('click', hideSplashScreen);
 
     fetchData();
 });
