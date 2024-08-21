@@ -47,7 +47,32 @@ header {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden; /* جلوگیری از بیرون زدن QR کد */
+    box-sizing: border-box; /* اطمینان از اینکه padding در اندازه‌گیری لحاظ شود */
 }
+
+.qr-code {
+    position: absolute;
+    bottom: 10px; /* فاصله از پایین باکس */
+    left: 50%; /* مرکزیت افقی */
+    transform: translateX(-50%); /* مرکزیت افقی */
+    width: 40px; /* اندازه QR کد در حالت عادی */
+    height: 40px; /* اندازه QR کد در حالت عادی */
+    cursor: pointer;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.qr-code-expanded {
+    width: calc(100% - 20px); /* عرض QR کد به اندازه عرض باکس با در نظر گرفتن padding */
+    height: auto; /* ارتفاع به‌طور خودکار تنظیم شود */
+    max-width: 150px; /* حداکثر عرض QR کد */
+    max-height: 150px; /* حداکثر ارتفاع QR کد */
+    transform: translateX(-50%) scale(2); /* بزرگ‌نمایی QR کد و مرکزیت افقی */
+    bottom: 10px; /* فاصله از پایین باکس */
+    z-index: 10;
+}
+
 
 .link-box:hover {
     transform: translateY(-5px);
@@ -113,28 +138,6 @@ header {
 }
 
 
-.qr-code {
-    position: absolute;
-    bottom: 20px; /* فاصله از پایین باکس */
-    left: 50%; /* مرکزیت افقی */
-    transform: translateX(-50%); /* مرکزیت افقی */
-    width: 40px; /* اندازه QR کد در حالت عادی */
-    height: 40px; /* اندازه QR کد در حالت عادی */
-    cursor: pointer;
-    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
-    border-radius: 8px;
-    z-index: 1;
-}
-
-.qr-code-expanded {
-    width: calc(100% - 20px); /* عرض QR کد به اندازه عرض باکس منهای حاشیه‌ها */
-    height: auto; /* ارتفاع به‌طور خودکار تنظیم شود */
-    max-width: 150px; /* حداکثر عرض QR کد */
-    max-height: 150px; /* حداکثر ارتفاع QR کد */
-    bottom: 20px; /* فاصله از پایین باکس */
-    transform: translateX(-50%) scale(1.5); /* بزرگ‌نمایی QR کد و مرکزیت افقی */
-    z-index: 10;
-}
 
 .last-update {
     font-size: 3vw; /* Responsive font size for last update */
