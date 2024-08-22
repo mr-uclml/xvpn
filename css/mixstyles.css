@@ -21,67 +21,7 @@ header {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.help-button {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    background-color: #ff6f61;
-    color: #ffffff;
-    border: none;
-    border-radius: 50%;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    z-index: 1001; /* Ensure it appears above other elements */
-}
 
-.help-button:hover {
-    background-color: #ffab40;
-}
-
-.splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    font-size: 2vw; /* Adjust as needed */
-    display: none; /* Initially hidden */
-}
-
-.splash-content {
-    text-align: center;
-    padding: 20px;
-    background: #333;
-    border-radius: 10px;
-}
-
-.ok-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1.5vw; /* Adjust as needed */
-    background-color: #ff6f61;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.ok-button:hover {
-    background-color: #ffab40;
-}
 .link-container {
     display: flex;
     flex-wrap: wrap;
@@ -92,12 +32,22 @@ header {
     max-width: 1200px;
 }
 
-
-.vip-box {
-    border: 2px solid #ffeb3b; /* زرد روشن */
-    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5); /* سایه زرد ملایم */
+.link-box {
+    position: relative;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    flex-basis: calc(100% - 40px);
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Ensures the QR code does not overflow */
 }
-
 
 .link-box:hover {
     transform: translateY(-5px);
@@ -141,10 +91,26 @@ header {
     align-items: center;
     z-index: 1000;
     font-size: 2vw; /* Adjust as needed */
+    display: none; /* Hide by default */
 }
 
-.splash-screen.hidden {
-    display: none;
+.splash-content {
+    text-align: center;
+}
+
+#splash-close-btn {
+    padding: 10px 20px;
+    font-size: 1.5vw;
+    background-color: #ff6f61;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#splash-close-btn:hover {
+    background-color: #ffab40;
 }
 
 .github-logo {
@@ -162,21 +128,9 @@ header {
     transform: scale(1.2);
 }
 
-.link-box {
-    position: relative;
-    background-color: #333;
-    padding: 20px;
-    border-radius: 12px;
-    width: 100%;
-    flex-basis: calc(100% - 40px);
-    max-width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden; /* Ensures the QR code does not overflow */
+.vip-box {
+    border: 3px solid #ffeb3b; /* زرد روشن */
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5); /* سایه زرد ملایم */
 }
 
 .qr-code {
@@ -189,7 +143,6 @@ header {
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     border-radius: 8px;
     z-index: 1;
-
 }
 
 .qr-code-expanded {
@@ -199,11 +152,9 @@ header {
     left: 50%;
     border-radius: 0;
     bottom: 10px; /* Adjusted to ensure the QR code stays within the box */
-   transform: translate(-50%, -13.5%) scale(1.5);
+    transform: translate(-50%, -13.5%) scale(1.5);
     z-index: 10;
 }
-
-
 
 .last-update {
     font-size: 3vw; /* Responsive font size for last update */
@@ -215,6 +166,20 @@ footer {
     padding: 20px;
     font-size: 3vw; /* Responsive font size for footer */
     color: #888;
+}
+
+.help-icon {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.help-icon:hover {
+    transform: scale(1.2);
 }
 
 @media (min-width: 768px) {
