@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await fetchVipUsers();
 
         try {
-            const response = await fetch('${mainurl}/source.txt');
+            const response = await fetch('/source.txt');
             const text = await response.text();
             const links = text.trim().split('\n');
 
