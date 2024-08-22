@@ -132,6 +132,5 @@ document.addEventListener('DOMContentLoaded', () => {
     closeSplash.addEventListener('click', () => {
         splashScreen.style.display = 'none';
     });
-
     fetchData();
 });
