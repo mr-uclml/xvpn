@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkContainer = document.getElementById('link-container');
     let openQRCode = null;
     let vipUsers = [];
-
     const convertToReadableTime = (date) => {
         const seconds = Math.floor((new Date() - date) / 1000);
         let interval = Math.floor(seconds / 31536000);
