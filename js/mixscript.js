@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mainurl = 'https://mr-uclml.github.io/xvpn'
     const splashScreen = document.getElementById('splash-screen');
     const helpIcon = document.getElementById('help-icon');
     const closeSplash = document.getElementById('close-splash');
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchVipUsers = async () => {
         try {
-            const response = await fetch('${mainurl}/vip.txt');
+            const response = await fetch('https://mr-uclml.github.io/xvpn/vip.txt');
             const text = await response.text();
             vipUsers = text.trim().split('\n');
         } catch (error) {
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await fetchVipUsers();
 
         try {
-            const response = await fetch('/source.txt');
+            const response = await fetch('https://mr-uclml.github.io/xvpn/source.txt');
             const text = await response.text();
             const links = text.trim().split('\n');
 
