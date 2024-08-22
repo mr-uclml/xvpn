@@ -1,10 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const linkContainer = document.getElementById('link-container');
     const splashScreen = document.getElementById('splash-screen');
-    const helpButton = document.getElementById('help-button');
-    const okButton = document.getElementById('ok-button');
-    let openQRCode = null; // Variable to keep track of currently open QR code
-    let vipUsers = []; // Array to store VIP users
+    const helpIcon = document.createElement('img');
+    helpIcon.src = 'path/to/question-mark-icon.png'; // آدرس آیکون علامت سوال
+    helpIcon.alt = 'Help';
+    helpIcon.className = 'help-icon';
+    helpIcon.id = 'help-icon';
+    document.body.appendChild(helpIcon);
+
+    const splashCloseBtn = document.createElement('button');
+    splashCloseBtn.id = 'splash-close-btn';
+    splashCloseBtn.textContent = 'اوکی';
+
+    const splashContent = document.createElement('div');
+    splashContent.className = 'splash-content';
+    splashContent.innerHTML = '<p>سلام</p>';
+    splashContent.appendChild(splashCloseBtn);
+    splashScreen.appendChild(splashContent);
+
+    // نمایش اسپلاش اسکرین زمانی که روی آیکون علامت سوال کلیک می‌شود
+    helpIcon.addEventListener('click', () => {
+        splashScreen.style.display = 'flex';
+    });
+
+    // پنهان کردن اسپلاش اسکرین زمانی که دکمه اوکی کلیک می‌شود
+    splashCloseBtn.addEventListener('click', () => {
+        splashScreen.style.display = 'none';
+    });
+
+    const linkContainer = document.getElementById('link-container');
+    let openQRCode = null; // متغیری برای نگهداری QR کد باز
+    let vipUsers = []; // آرایه‌ای برای ذخیره کاربران VIP
 
     const convertToReadableTime = (date) => {
         const seconds = Math.floor((new Date() - date) / 1000);
@@ -26,121 +51,71 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/vip.txt');
             const text = await response.text();
-            vipUsers = text.trim().split('\n'); // Store VIP users
+            vipUsers = text.trim().split('\n'); // ذخیره کاربران VIP
         } catch (error) {
             console.error('Error fetching VIP users:', error);
         }
     };
 
     const fetchData = async () => {
-        await fetchVipUsers(); // Fetch VIP users first
-
         try {
-            const response = await fetch('/source.txt');
+            await fetchVipUsers(); // ابتدا کاربران VIP را بگیر
+
+            const response = await fetch('/data.txt');
             const text = await response.text();
-            const links = text.trim().split('\n');
+            const lines = text.trim().split('\n');
 
-            const results = await Promise.all(links.map(url => 
-                fetch(`https://corsproxy.io/?https://api.codetabs.com/v1/proxy/?quest=https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
-                .then(response => response.json())
-                .then(data => {
-                    const lastUpdate = new Date(data.time_difference);
-                    return {
-                        url,
-                        timeDifference: convertToReadableTime(lastUpdate),
-                        lastUpdate
-                    };
-                })
-            ));
+            lines.forEach(line => {
+                const [user, link, date, code] = line.split(',');
+                const box = document.createElement('div');
+                box.className = 'link-box';
 
-            results.sort((a, b) => b.lastUpdate - a.lastUpdate);
-
-            linkContainer.innerHTML = '';
-
-            results.forEach(({ url, timeDifference }) => {
-                const urlParts = url.split('/');
-                const fileName = urlParts[urlParts.length - 1].split('.')[0];
-                const userName = urlParts[3];
-                const repoName = urlParts[4];
-                const displayName = `${userName}-${fileName}`;
-                const repoUrl = `https://github.com/${userName}/${repoName}`;
-
-                const linkBox = document.createElement('div');
-                linkBox.className = 'link-box';
-
-                // Add VIP class if userName is in vipUsers
-                if (vipUsers.includes(userName)) {
-                    linkBox.classList.add('vip-box');
+                // بررسی اگر کاربر VIP باشد
+                if (vipUsers.includes(user)) {
+                    box.classList.add('vip-box');
                 }
 
-                const nameElement = document.createElement('div');
-                nameElement.className = 'link-name';
-                nameElement.textContent = displayName;
+                const linkName = document.createElement('div');
+                linkName.className = 'link-name';
+                linkName.textContent = user;
+
+                const lastUpdate = document.createElement('div');
+                lastUpdate.className = 'last-update';
+                lastUpdate.textContent = convertToReadableTime(new Date(date));
 
                 const copyButton = document.createElement('button');
                 copyButton.className = 'copy-button';
-                copyButton.textContent = 'لینک ساب';
-                copyButton.onclick = () => {
-                    navigator.clipboard.writeText(url);
-                    alert('لینک کپی شد!');
-                };
-
-                const githubLogo = document.createElement('img');
-                githubLogo.src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
-                githubLogo.className = 'github-logo';
-                githubLogo.onclick = () => {
-                    window.open(repoUrl, '_blank');
-                };
+                copyButton.textContent = 'کپی';
 
                 const qrCode = document.createElement('img');
-                qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
                 qrCode.className = 'qr-code';
-                
-                qrCode.onclick = () => {
+                qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(link)}`;
+
+                qrCode.addEventListener('click', () => {
                     if (openQRCode && openQRCode !== qrCode) {
                         openQRCode.classList.remove('qr-code-expanded');
                     }
+
                     qrCode.classList.toggle('qr-code-expanded');
                     openQRCode = qrCode.classList.contains('qr-code-expanded') ? qrCode : null;
-                };
+                });
 
-                const lastUpdateElement = document.createElement('div');
-                lastUpdateElement.className = 'last-update';
-                lastUpdateElement.textContent = `بروزرسانی: ${timeDifference}`;
+                copyButton.addEventListener('click', () => {
+                    navigator.clipboard.writeText(link)
+                        .then(() => alert('لینک کپی شد!'))
+                        .catch(() => alert('مشکلی در کپی کردن لینک وجود دارد.'));
+                });
 
-                linkBox.appendChild(nameElement);
-                linkBox.appendChild(copyButton);
-                linkBox.appendChild(githubLogo);
-                linkBox.appendChild(qrCode);
-                linkBox.appendChild(lastUpdateElement);
-
-                linkContainer.appendChild(linkBox);
+                box.appendChild(linkName);
+                box.appendChild(qrCode);
+                box.appendChild(copyButton);
+                box.appendChild(lastUpdate);
+                linkContainer.appendChild(box);
             });
-
         } catch (error) {
-            console.error('Error fetching last update times:', error);
-        } finally {
-            setTimeout(() => {
-                splashScreen.classList.add('hidden');
-            }, 3000);
+            console.error('Error fetching data:', error);
         }
     };
-
-    // Function to show the splash screen
-    const showSplashScreen = () => {
-        splashScreen.style.display = 'flex';
-    };
-
-    // Function to hide the splash screen
-    const hideSplashScreen = () => {
-        splashScreen.style.display = 'none';
-    };
-
-    // Event listener for help button
-    helpButton.addEventListener('click', showSplashScreen);
-
-    // Event listener for OK button on the splash screen
-    okButton.addEventListener('click', hideSplashScreen);
 
     fetchData();
 });
