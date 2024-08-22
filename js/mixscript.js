@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mainurl = 'https://mr-uclml.github.io'
+    const mainurl = 'https://mr-uclml.github.io/xvpn'
     const splashScreen = document.getElementById('splash-screen');
     const helpIcon = document.getElementById('help-icon');
     const closeSplash = document.getElementById('close-splash');
