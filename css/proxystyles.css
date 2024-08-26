@@ -1,0 +1,153 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+h1 {
+    color: #ffab40;
+    margin: 20px 0;
+}
+
+#proxy-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.channel-box {
+    border: 2px solid #ff6f61;
+    background-color: #333;
+    color: #ffffff;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+.channel-box:hover {
+    background-color: #444;
+    border-color: #ffab40;
+}
+
+.telegram-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.telegram-icon:hover {
+    transform: scale(1.2);
+}
+
+.proxy-list {
+    display: none;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.proxy-item {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #444;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    position: relative;
+}
+
+.proxy-item .proxy-ip {
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 1vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.proxy-item button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1vw;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-left: 10px;
+}
+
+.connect-button {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+.connect-button:hover {
+    background-color: #45a049;
+}
+
+.copy-button {
+    background-color: #ff6f61;
+    color: #ffffff;
+}
+
+.copy-button:hover {
+    background-color: #e55b4b;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    background-color: #1c1c1c;
+    width: 100%;
+    border-top: 2px solid #ffab40;
+    font-size: 1.5vw;
+}
+
+.github-logo {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.github-logo:hover {
+    transform: scale(1.2);
+}
+
+@media (min-width: 768px) {
+    .channel-box {
+        width: 80%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .channel-box {
+        width: 60%;
+    }
+}
