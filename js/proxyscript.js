@@ -24,6 +24,7 @@ fetch('https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/main/telegram/
         let currentlyOpenBox = null;
         
         for (const channel in data) {
+            const cleanChannel = channel.replace('@', '');
             const channelBox = document.createElement('div');
             channelBox.className = 'channel-box';
             
@@ -31,13 +32,13 @@ fetch('https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/main/telegram/
             telegramIcon.className = 'telegram-icon';
             telegramIcon.src = 'https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg';
             telegramIcon.onclick = () => {
-                window.open(`https://t.me/${channel}`, '_blank');
+                window.open(`https://t.me/${cleanChannel}`, '_blank');
             };
 
             channelBox.appendChild(telegramIcon);
 
             const channelTitle = document.createElement('div');
-            channelTitle.textContent = channel;
+            channelTitle.textContent = cleanChannel;
             channelBox.appendChild(channelTitle);
 
             const proxyList = document.createElement('div');
