@@ -29,7 +29,7 @@ fetch('https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/main/telegram/
             
             const telegramIcon = document.createElement('img');
             telegramIcon.className = 'telegram-icon';
-            telegramIcon.src = 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Telegram_logo.svg';
+            telegramIcon.src = 'https://upload.wikimedia.org/wikipedia/commons/8/83/Telegram_2019_Logo.svg';
             telegramIcon.onclick = () => {
                 window.open(`https://t.me/${channel}`, '_blank');
             };
