@@ -38,7 +38,7 @@ fetch('https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/main/telegram/
             channelBox.appendChild(telegramIcon);
 
             const channelTitle = document.createElement('div');
-            channelTitle.textContent = cleanChannel;
+            channelTitle.textContent = channel;
             channelBox.appendChild(channelTitle);
 
             const proxyList = document.createElement('div');
