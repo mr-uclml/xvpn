@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchVipUsers = async () => {
         try {
-            const response = await fetch('https://mr-uclml.github.io/xvpn/vip.txt');
+            const response = await fetch('https://mr-uclml.github.io/xvpn/more/vip.txt');
             const text = await response.text();
             vipUsers = text.trim().split('\n');
         } catch (error) {
@@ -35,12 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
         await fetchVipUsers();
 
         try {
-            const response = await fetch('https://mr-uclml.github.io/xvpn/source.txt');
+            const response = await fetch('https://mr-uclml.github.io/xvpn/more/mix-source.txt');
             const text = await response.text();
             const links = text.trim().split('\n');
 
             const results = await Promise.all(links.map(url =>
-                fetch(`https://corsproxy.io/?https://api.codetabs.com/v1/proxy/?quest=https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
+                fetch(`https://corsproxy.io/?https://v2rayn.pythonanywhere.com/file-update?file_url=${url}`)
                 .then(response => response.json())
                 .then(data => {
                     const lastUpdate = new Date(data.time_difference);
