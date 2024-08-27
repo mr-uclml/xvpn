@@ -2,14 +2,26 @@ function extractServerUrl(url) {
     const urlParams = new URLSearchParams(url.split('?')[1]);
     const server = urlParams.get('server');
     if (server) {
-        const parts = server.split('.');
-        return parts.join('.').length > 14 ? parts.join('.').slice(0, 14) + '...' : parts.join('.');
+        return server.length > 14 ? server.slice(0, 14) + '...' : server;
     }
     return url;
 }
 
-function generateTelegramLink(proxy) {
-    return `tg://proxy?server=${proxy}`;
+function generateTelegramLink(proxyUrl) {
+    const urlParams = new URLSearchParams(proxyUrl.split('?')[1]);
+    const server = urlParams.get('server');
+    const port = urlParams.get('port');
+    const secret = urlParams.get('secret');
+    
+    let link = `tg://proxy?server=${server}`;
+    if (port) {
+        link += `&port=${port}`;
+    }
+    if (secret) {
+        link += `&secret=${secret}`;
+    }
+
+    return link;
 }
 
 fetch('https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/main/telegram/index.json')
