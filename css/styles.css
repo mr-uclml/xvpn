@@ -66,6 +66,16 @@ footer {
     font-size: 1.5vw;
 }
 
+.github-logo {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.github-logo:hover {
+    transform: scale(1.2);
+}
 
 @media (max-width: 600px) {
     header {
